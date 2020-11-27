@@ -1,12 +1,30 @@
 import { ModuleWithProviders } from '@angular/core';
 import * as i0 from "@angular/core";
-import * as i1 from "@angular/common";
-import * as i2 from "@angular/forms";
-import * as i3 from "@angular/common/http";
-import * as i4 from "@ng-bootstrap/ng-bootstrap";
-import * as i5 from "map-wald";
+import * as i1 from "./draw.component";
+import * as i2 from "./geojson-layer.component";
+import * as i3 from "./leaflet-map.component";
+import * as i4 from "./legend.component";
+import * as i5 from "./map-control.component";
+import * as i6 from "./one-time-splash.component";
+import * as i7 from "./vector-tile-layer.component";
+import * as i8 from "./wms-layer.component";
+import * as i9 from "@angular/common";
+import * as i10 from "@angular/forms";
+import * as i11 from "@angular/common/http";
+import * as i12 from "@ng-bootstrap/ng-bootstrap";
+import * as i13 from "map-wald";
+export * from './data';
+export * from './leaflet.service';
+export * from './leaflet-map.component';
+export * from './draw.component';
+export * from './geojson-layer.component';
+export * from './legend.component';
+export * from './map-control.component';
+export * from './one-time-splash.component';
+export * from './vector-tile-layer.component';
+export * from './wms-layer.component';
 export declare class MapWaldLeafletModule {
     static forRoot(moduleInitialisation: any): ModuleWithProviders<MapWaldLeafletModule>;
-    static ɵmod: i0.ɵɵNgModuleDefWithMeta<MapWaldLeafletModule, never, [typeof i1.CommonModule, typeof i2.FormsModule, typeof i3.HttpClientModule, typeof i4.NgbModule, typeof i5.MapWaldCoreModule], never>;
+    static ɵmod: i0.ɵɵNgModuleDefWithMeta<MapWaldLeafletModule, [typeof i1.DrawComponent, typeof i2.GeojsonLayerComponent, typeof i3.LeafletMapComponent, typeof i4.LegendComponent, typeof i5.MapControlComponent, typeof i6.OneTimeSplashComponent, typeof i7.VectorTileLayerComponent, typeof i8.WmsLayerComponent], [typeof i9.CommonModule, typeof i10.FormsModule, typeof i11.HttpClientModule, typeof i12.NgbModule, typeof i13.MapWaldCoreModule], [typeof i1.DrawComponent, typeof i2.GeojsonLayerComponent, typeof i3.LeafletMapComponent, typeof i4.LegendComponent, typeof i5.MapControlComponent, typeof i6.OneTimeSplashComponent, typeof i7.VectorTileLayerComponent, typeof i8.WmsLayerComponent]>;
     static ɵinj: i0.ɵɵInjectorDef<MapWaldLeafletModule>;
 }
