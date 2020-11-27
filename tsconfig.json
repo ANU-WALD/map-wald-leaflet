@@ -15,7 +15,9 @@
     "skipLibCheck": true,
     "outDir": "./dist",
     "typeRoots": [
-      "node_modules/@types"
+      "node_modules/@types",
+      "src/leaflet.customcontrols.d.ts",
+      "src/leaflet.vectorgrid.d.ts"
     ],
     "paths": {
       "@angular/*": ["./node_modules/@angular/*"],
@@ -29,6 +31,9 @@
     "**/*.spec.ts",
     "plotly.js",
     "plotly.js/**/*"
+  ],
+  "include": [
+    "src/*.d.ts"
   ],
   "angularCompilerOptions": {
     "strictMetadataEmit": true,
