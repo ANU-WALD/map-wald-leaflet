@@ -5,12 +5,42 @@ import { HttpClientModule } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { MapWaldCoreModule } from 'map-wald';
 
+import { LeafletService } from './leaflet.service';
+import { LeafletMapComponent } from './leaflet-map.component';
+import { DrawComponent } from './draw.component';
+import { GeojsonLayerComponent } from './geojson-layer.component';
+import { LegendComponent } from './legend.component';
+import { MapControlComponent } from './map-control.component';
+import { OneTimeSplashComponent } from './one-time-splash.component';
+import { VectorTileLayerComponent } from './vector-tile-layer.component';
+import { WmsLayerComponent } from './wms-layer.component';
+
+export * from './data';
+export * from './leaflet.service';
+export * from './leaflet-map.component';
+export * from './draw.component';
+export * from './geojson-layer.component';
+export * from './legend.component';
+export * from './map-control.component';
+export * from './one-time-splash.component';
+export * from './vector-tile-layer.component';
+export * from './wms-layer.component';
+
 const components: any[] = [
   //$componentList
+  DrawComponent,
+  GeojsonLayerComponent,
+  LeafletMapComponent,
+  LegendComponent,
+  MapControlComponent,
+  OneTimeSplashComponent,
+  VectorTileLayerComponent,
+  WmsLayerComponent
 ];
 
 const services: any[] = [
   //$serviceList
+  LeafletService  
 ];
 
 @NgModule({
