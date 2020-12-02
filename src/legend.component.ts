@@ -1,7 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
-  selector: 'app-legend',
+  selector: 'legend',
   template: `<div class="map-legend panel panel-group">
 <ng-template #tooltipContent>
   <span [innerHtml]=helpText></span>
