@@ -14,6 +14,8 @@ import { MapControlComponent } from './map-control.component';
 import { OneTimeSplashComponent } from './one-time-splash.component';
 import { VectorTileLayerComponent } from './vector-tile-layer.component';
 import { WmsLayerComponent } from './wms-layer.component';
+import { DateElementComponent } from './date-element.component';
+import { DateSelectionComponent } from './date-selection.component';
 
 export * from './data';
 export * from './leaflet.service';
@@ -25,6 +27,8 @@ export * from './map-control.component';
 export * from './one-time-splash.component';
 export * from './vector-tile-layer.component';
 export * from './wms-layer.component';
+export * from './date-element.component';
+export * from './date-selection.component';
 
 const components: any[] = [
   //$componentList
@@ -35,7 +39,9 @@ const components: any[] = [
   MapControlComponent,
   OneTimeSplashComponent,
   VectorTileLayerComponent,
-  WmsLayerComponent
+  WmsLayerComponent,
+  DateElementComponent,
+  DateSelectionComponent
 ];
 
 const services: any[] = [
