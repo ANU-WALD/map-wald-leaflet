@@ -85,7 +85,7 @@ export class LeafletMapComponent implements OnInit, OnChanges {
         if(this.baseLayer){
           this.baseLayer.setUrl(this.baseMap.urlTemplate || DEFAULT_BASE_MAP);
           // this.baseLayer.removeFrom(this.map);
-        } else {
+        } else if(this.baseMap) {
           this.createBaseLayer();
           this.baseLayer.addTo(this.map);
         }
@@ -96,6 +96,11 @@ export class LeafletMapComponent implements OnInit, OnChanges {
   }
 
   createBaseLayer(): void {
+    this.baseLayer = null;
+    if(!this.baseMap){
+      return;
+    }
+
     const options: leaflet.TileLayerOptions = {};
     if(this.baseMap.maxNativeZoom){
       options.maxNativeZoom = this.baseMap.maxNativeZoom;
@@ -135,8 +140,10 @@ export class LeafletMapComponent implements OnInit, OnChanges {
       // }
       this.createBaseLayer();
       const baseLayerArray = [
-        this.baseLayer
       ];
+      if(this.baseLayer){
+        baseLayerArray.push(this.baseLayer);
+      }
 
       this.map = leaflet.map(theHost as HTMLElement,{
         crs,
