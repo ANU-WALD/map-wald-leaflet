@@ -130,15 +130,19 @@
                         _this.baseLayer.setUrl(_this.baseMap.urlTemplate || DEFAULT_BASE_MAP);
                         // this.baseLayer.removeFrom(this.map);
                     }
-                    else {
+                    else if (_this.baseMap) {
                         _this.createBaseLayer();
-                        _this.baseLayer.addTo(_this.map);
+                        _this.baseLayer.addTo(_this.map).bringToBack();
                     }
                 }
             });
             // Update parameters
         };
         LeafletMapComponent.prototype.createBaseLayer = function () {
+            this.baseLayer = null;
+            if (!this.baseMap) {
+                return;
+            }
             var options = {};
             if (this.baseMap.maxNativeZoom) {
                 options.maxNativeZoom = this.baseMap.maxNativeZoom;
@@ -171,9 +175,10 @@
                 //   panes = getCustomMapPanes(this.map).length;
                 // }
                 _this.createBaseLayer();
-                var baseLayerArray = [
-                    _this.baseLayer
-                ];
+                var baseLayerArray = [];
+                if (_this.baseLayer) {
+                    baseLayerArray.push(_this.baseLayer);
+                }
                 _this.map = leaflet.map(theHost, {
                     crs: crs,
                     zoom: 5,
@@ -559,7 +564,7 @@
         LegendComponent.prototype.ngOnInit = function () {
         };
         LegendComponent.ɵfac = function LegendComponent_Factory(t) { return new (t || LegendComponent)(); };
-        LegendComponent.ɵcmp = i0.ɵɵdefineComponent({ type: LegendComponent, selectors: [["app-legend"]], inputs: { colours: "colours", labels: "labels", imageURL: "imageURL", title: "title", mapUnits: "mapUnits", helpText: "helpText", tooltipPlacement: "tooltipPlacement", attribution: "attribution", attributionLink: "attributionLink" }, decls: 11, vars: 7, consts: [[1, "map-legend", "panel", "panel-group"], ["tooltipContent", ""], [3, "innerHTML", 4, "ngIf"], ["container", "body", 3, "ngbTooltip", "placement", 4, "ngIf"], [4, "ngIf"], [3, "innerHtml"], [3, "innerHTML"], ["container", "body", 3, "ngbTooltip", "placement"], [1, "fa", "fa-info-circle"], [2, "display", "table", "line-height", "15px"], ["style", "display:table-row;padding:0;", 4, "ngFor", "ngForOf"], [2, "display", "table-row", "padding", "0"], [1, "legend-colour"], [1, "legend-entry", 3, "ngStyle"], [1, "legend-label"], [3, "src"], [3, "href"]], template: function LegendComponent_Template(rf, ctx) { if (rf & 1) {
+        LegendComponent.ɵcmp = i0.ɵɵdefineComponent({ type: LegendComponent, selectors: [["legend"]], inputs: { colours: "colours", labels: "labels", imageURL: "imageURL", title: "title", mapUnits: "mapUnits", helpText: "helpText", tooltipPlacement: "tooltipPlacement", attribution: "attribution", attributionLink: "attributionLink" }, decls: 11, vars: 7, consts: [[1, "map-legend", "panel", "panel-group"], ["tooltipContent", ""], [3, "innerHTML", 4, "ngIf"], ["container", "body", 3, "ngbTooltip", "placement", 4, "ngIf"], [4, "ngIf"], [3, "innerHtml"], [3, "innerHTML"], ["container", "body", 3, "ngbTooltip", "placement"], [1, "fa", "fa-info-circle"], [2, "display", "table", "line-height", "15px"], ["style", "display:table-row;padding:0;", 4, "ngFor", "ngForOf"], [2, "display", "table-row", "padding", "0"], [1, "legend-colour"], [1, "legend-entry", 3, "ngStyle"], [1, "legend-label"], [3, "src"], [3, "href"]], template: function LegendComponent_Template(rf, ctx) { if (rf & 1) {
                 i0.ɵɵelementStart(0, "div", 0);
                 i0.ɵɵtemplate(1, LegendComponent_ng_template_1_Template, 1, 1, "ng-template", null, 1, i0.ɵɵtemplateRefExtractor);
                 i0.ɵɵelementStart(3, "strong");
@@ -594,7 +599,7 @@
     /*@__PURE__*/ (function () { i0.ɵsetClassMetadata(LegendComponent, [{
             type: core.Component,
             args: [{
-                    selector: 'app-legend',
+                    selector: 'legend',
                     template: "<div class=\"map-legend panel panel-group\">\n<ng-template #tooltipContent>\n  <span [innerHtml]=helpText></span>\n</ng-template>\n  <strong>{{title}} <span *ngIf=\"mapUnits\" [innerHTML]=\"'('+mapUnits+')'\"></span>\n        <span *ngIf=\"helpText\"\n              [ngbTooltip]=\"tooltipContent\"\n              [placement]=\"tooltipPlacement\"\n              container=\"body\">\n          <i class=\"fa fa-info-circle\"></i>\n        </span>\n  </strong>\n\n  <div *ngIf=\"!imageURL\">\n    <div style=\"display:table;line-height:15px\">\n      <div style=\"display:table-row;padding:0;\"\n          *ngFor=\"let colour of colours; let i=index\">\n        <div class=\"legend-colour\">\n          <i class=\"legend-entry\" [ngStyle]=\"{background:colour}\"></i>\n        </div>\n        <div class=\"legend-label\">\n          <span [innerHTML]=\"labels[i]\"></span>\n        </div>\n      </div>\n    </div>\n  </div>\n\n  <div *ngIf=\"imageURL\">\n    <img [src]=\"imageURL\">\n  </div>\n  <p *ngIf=\"attributionLink\">Source: <a [href]=\"attributionLink\">{{attribution || 'details'}}</a></p>\n  <p *ngIf=\"attribution&&!attributionLink\">Source: {{attribution}}</p>\n</div>\n", styles: ["\n.map-legend{\n  display:block;\n  background: white;\n}\n\n.legend-colour{\n  display:table-cell;\n  padding:0px;\n}\n\n.legend-label{\n  display:table-cell;\n  padding:0px 4px 2px 2px;\n  font-size:10px;\n  vertical-align:middle;\n}\n\n.legend-entry {\n  float: left;\n  width: 15px !important;\n  height: 15px !important;\n}\n"]
                 }]
         }], function () { return []; }, { colours: [{
@@ -1110,6 +1115,291 @@
     var wmsLayer_component$1 = unwrapExports(wmsLayer_component);
     var wmsLayer_component_1 = wmsLayer_component.WmsLayerComponent;
 
+    var dateElement_component = createCommonjsModule(function (module, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.DateElementComponent = void 0;
+
+    var i0 = core;
+    var DateElementComponent = /** @class */ (function () {
+        function DateElementComponent() {
+            this.step = 1;
+            this.changed = new core.EventEmitter();
+            this.disabled = false;
+        }
+        DateElementComponent.prototype.ngAfterViewInit = function () {
+        };
+        DateElementComponent.prototype.move = function (n) {
+            this.src[this.property] += n;
+            this.changed.emit(this.src);
+        };
+        DateElementComponent.ɵfac = function DateElementComponent_Factory(t) { return new (t || DateElementComponent)(); };
+        DateElementComponent.ɵcmp = i0.ɵɵdefineComponent({ type: DateElementComponent, selectors: [["date-element"]], inputs: { label: "label", property: "property", src: "src", step: "step", disabled: "disabled" }, outputs: { changed: "changed" }, decls: 12, vars: 4, consts: [[1, "row", "no-gutters"], [1, "col-4"], [1, "col-2"], [1, "btn", "btn-secondary", "btn-sm", 3, "disabled", "click"], [1, "fa", "fa-angle-left"], [1, "btn", "btn-link", "btn-sm"], [1, "fa", "fa-angle-right"]], template: function DateElementComponent_Template(rf, ctx) { if (rf & 1) {
+                i0.ɵɵelementStart(0, "div", 0);
+                i0.ɵɵelementStart(1, "div", 1);
+                i0.ɵɵtext(2);
+                i0.ɵɵelementEnd();
+                i0.ɵɵelementStart(3, "div", 2);
+                i0.ɵɵelementStart(4, "button", 3);
+                i0.ɵɵlistener("click", function DateElementComponent_Template_button_click_4_listener() { return ctx.move(-ctx.step); });
+                i0.ɵɵelement(5, "i", 4);
+                i0.ɵɵelementEnd();
+                i0.ɵɵelementEnd();
+                i0.ɵɵelementStart(6, "div", 1);
+                i0.ɵɵelementStart(7, "button", 5);
+                i0.ɵɵtext(8);
+                i0.ɵɵelementEnd();
+                i0.ɵɵelementEnd();
+                i0.ɵɵelementStart(9, "div", 2);
+                i0.ɵɵelementStart(10, "button", 3);
+                i0.ɵɵlistener("click", function DateElementComponent_Template_button_click_10_listener() { return ctx.move(ctx.step); });
+                i0.ɵɵelement(11, "i", 6);
+                i0.ɵɵelementEnd();
+                i0.ɵɵelementEnd();
+                i0.ɵɵelementEnd();
+            } if (rf & 2) {
+                i0.ɵɵadvance(2);
+                i0.ɵɵtextInterpolate(ctx.label);
+                i0.ɵɵadvance(2);
+                i0.ɵɵproperty("disabled", ctx.disabled);
+                i0.ɵɵadvance(4);
+                i0.ɵɵtextInterpolate(ctx.src[ctx.property]);
+                i0.ɵɵadvance(2);
+                i0.ɵɵproperty("disabled", ctx.disabled);
+            } }, encapsulation: 2 });
+        return DateElementComponent;
+    }());
+    exports.DateElementComponent = DateElementComponent;
+    /*@__PURE__*/ (function () { i0.ɵsetClassMetadata(DateElementComponent, [{
+            type: core.Component,
+            args: [{
+                    selector: 'date-element',
+                    template: "<div class=\"row no-gutters\">\n  <div class=\"col-4\">{{label}}</div>\n  <div class=\"col-2\">\n    <button class=\"btn btn-secondary btn-sm\"\n            (click)=\"move(-step)\"\n            [disabled]=\"disabled\">\n      <i class=\"fa fa-angle-left\"></i>\n    </button>\n  </div>\n  <div class=\"col-4\"><button class=\"btn btn-link btn-sm\">{{src[property]}}</button></div>\n  <div class=\"col-2\">\n    <button class=\"btn btn-secondary btn-sm\"\n            (click)=\"move(step)\"\n            [disabled]=\"disabled\">\n      <i class=\"fa fa-angle-right\"></i>\n    </button>\n  </div>\n</div>\n",
+                    styles: []
+                }]
+        }], function () { return []; }, { label: [{
+                type: core.Input
+            }], property: [{
+                type: core.Input
+            }], src: [{
+                type: core.Input
+            }], step: [{
+                type: core.Input
+            }], changed: [{
+                type: core.Output
+            }], disabled: [{
+                type: core.Input
+            }] }); })();
+
+    });
+
+    var dateElement_component$1 = unwrapExports(dateElement_component);
+    var dateElement_component_1 = dateElement_component.DateElementComponent;
+
+    var dateSelection_component = createCommonjsModule(function (module, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.DateSelectionComponent = void 0;
+
+
+    var i0 = core;
+    var i1 = mapWald;
+
+
+
+
+    function DateSelectionComponent_div_1_Template(rf, ctx) { if (rf & 1) {
+        var _r4 = i0.ɵɵgetCurrentView();
+        i0.ɵɵelementStart(0, "div", 3);
+        i0.ɵɵelementStart(1, "div", 4);
+        i0.ɵɵelementStart(2, "div", 5);
+        i0.ɵɵelementStart(3, "input", 6, 7);
+        i0.ɵɵlistener("ngModelChange", function DateSelectionComponent_div_1_Template_input_ngModelChange_3_listener($event) { i0.ɵɵrestoreView(_r4); var ctx_r3 = i0.ɵɵnextContext(); return ctx_r3.dateStruct = $event; })("ngModelChange", function DateSelectionComponent_div_1_Template_input_ngModelChange_3_listener() { i0.ɵɵrestoreView(_r4); var ctx_r5 = i0.ɵɵnextContext(); return ctx_r5.dateStructChanged(); });
+        i0.ɵɵelementEnd();
+        i0.ɵɵelementStart(5, "div", 8);
+        i0.ɵɵlistener("click", function DateSelectionComponent_div_1_Template_div_click_5_listener() { i0.ɵɵrestoreView(_r4); var _r2 = i0.ɵɵreference(4); var ctx_r6 = i0.ɵɵnextContext(); return ctx_r6.disabled || _r2.toggle(); });
+        i0.ɵɵelement(6, "i", 9);
+        i0.ɵɵelementEnd();
+        i0.ɵɵelementEnd();
+        i0.ɵɵelementEnd();
+        i0.ɵɵelementEnd();
+    } if (rf & 2) {
+        var ctx_r0 = i0.ɵɵnextContext();
+        i0.ɵɵadvance(3);
+        i0.ɵɵproperty("ngModel", ctx_r0.dateStruct)("maxDate", ctx_r0.maxDateStruct)("minDate", ctx_r0.minDateStruct)("disabled", ctx_r0.disabled);
+    } }
+    function DateSelectionComponent_div_2_date_element_1_Template(rf, ctx) { if (rf & 1) {
+        var _r11 = i0.ɵɵgetCurrentView();
+        i0.ɵɵelementStart(0, "date-element", 12);
+        i0.ɵɵlistener("changed", function DateSelectionComponent_div_2_date_element_1_Template_date_element_changed_0_listener() { i0.ɵɵrestoreView(_r11); var ctx_r10 = i0.ɵɵnextContext(2); return ctx_r10.dateStructChanged(); });
+        i0.ɵɵelementEnd();
+    } if (rf & 2) {
+        var ctx_r7 = i0.ɵɵnextContext(2);
+        i0.ɵɵproperty("src", ctx_r7.dateStruct)("property", "day")("label", "Day")("step", ctx_r7.stepDays)("disabled", ctx_r7.disabled);
+    } }
+    function DateSelectionComponent_div_2_date_element_2_Template(rf, ctx) { if (rf & 1) {
+        var _r13 = i0.ɵɵgetCurrentView();
+        i0.ɵɵelementStart(0, "date-element", 13);
+        i0.ɵɵlistener("changed", function DateSelectionComponent_div_2_date_element_2_Template_date_element_changed_0_listener() { i0.ɵɵrestoreView(_r13); var ctx_r12 = i0.ɵɵnextContext(2); return ctx_r12.dateStructChanged(); });
+        i0.ɵɵelementEnd();
+    } if (rf & 2) {
+        var ctx_r8 = i0.ɵɵnextContext(2);
+        i0.ɵɵproperty("src", ctx_r8.dateStruct)("property", "month")("label", "Month")("disabled", ctx_r8.disabled);
+    } }
+    function DateSelectionComponent_div_2_date_element_3_Template(rf, ctx) { if (rf & 1) {
+        var _r15 = i0.ɵɵgetCurrentView();
+        i0.ɵɵelementStart(0, "date-element", 13);
+        i0.ɵɵlistener("changed", function DateSelectionComponent_div_2_date_element_3_Template_date_element_changed_0_listener() { i0.ɵɵrestoreView(_r15); var ctx_r14 = i0.ɵɵnextContext(2); return ctx_r14.dateStructChanged(); });
+        i0.ɵɵelementEnd();
+    } if (rf & 2) {
+        var ctx_r9 = i0.ɵɵnextContext(2);
+        i0.ɵɵproperty("src", ctx_r9.dateStruct)("property", "year")("label", "Year")("disabled", ctx_r9.disabled);
+    } }
+    function DateSelectionComponent_div_2_Template(rf, ctx) { if (rf & 1) {
+        i0.ɵɵelementStart(0, "div");
+        i0.ɵɵtemplate(1, DateSelectionComponent_div_2_date_element_1_Template, 1, 5, "date-element", 10);
+        i0.ɵɵtemplate(2, DateSelectionComponent_div_2_date_element_2_Template, 1, 4, "date-element", 11);
+        i0.ɵɵtemplate(3, DateSelectionComponent_div_2_date_element_3_Template, 1, 4, "date-element", 11);
+        i0.ɵɵelementEnd();
+    } if (rf & 2) {
+        var ctx_r1 = i0.ɵɵnextContext();
+        i0.ɵɵadvance(1);
+        i0.ɵɵproperty("ngIf", ctx_r1.need.day);
+        i0.ɵɵadvance(1);
+        i0.ɵɵproperty("ngIf", ctx_r1.need.month);
+        i0.ɵɵadvance(1);
+        i0.ɵɵproperty("ngIf", ctx_r1.need.year);
+    } }
+    var MILLISECONDS_PER_DAY = 24 * 60 * 60 * 1000;
+    var DateSelectionComponent = /** @class */ (function () {
+        function DateSelectionComponent(timeUtils) {
+            this.timeUtils = timeUtils;
+            this.dateChange = new core.EventEmitter();
+            this.style = 'arrows';
+            this.stepDays = 1;
+            this.referenceDate = null;
+            this.disabled = false;
+            this.need = {
+                day: true,
+                month: true,
+                year: true
+            };
+            this.atMax = false;
+            this.atMin = false;
+        }
+        DateSelectionComponent.prototype.ngAfterViewInit = function () {
+        };
+        DateSelectionComponent.prototype.ngOnChanges = function (changes) {
+            if (changes.minDate) {
+                this.minDateStruct = this.timeUtils.convertDate(this.minDate);
+            }
+            if (changes.maxDate) {
+                this.maxDateStruct = this.timeUtils.convertDate(this.maxDate);
+            }
+            if (changes.date) {
+                this.dateStruct = this.timeUtils.convertDate(this.date);
+            }
+            if (changes.timestep) {
+                this.assessDateComponents();
+            }
+            this.checkLimits();
+        };
+        DateSelectionComponent.prototype.dateStructChanged = function () {
+            this.date = new Date(Date.UTC(this.dateStruct.year, this.dateStruct.month - 1, this.dateStruct.day));
+            // this.date.setUTCFullYear(this.dateStruct.year)
+            // this.date.setUTCMonth(this.dateStruct.month-1)
+            // this.date.setUTCDate(this.dateStruct.day);
+            this.checkReference();
+            this.dateChange.emit(this.date);
+        };
+        DateSelectionComponent.prototype.assessDateComponents = function () {
+            this.need.day = this.need.month = this.need.year = true;
+            if (this.timestep === 'daily') {
+                return;
+            }
+            this.need.day = false;
+            if (this.timestep === 'annual') {
+                this.need.month = false;
+            }
+        };
+        DateSelectionComponent.prototype.move = function (n) {
+            this.date = new Date(this.date && this.date.getTime());
+            this.date.setDate(this.date.getDate() + n);
+            this.onDateChanged();
+            this.dateChange.emit(this.date);
+        };
+        DateSelectionComponent.prototype.onDateChanged = function () {
+            this.checkLimits();
+        };
+        DateSelectionComponent.prototype.checkLimits = function () {
+            this.atMax = this.timeUtils.datesEqual(this.dateStruct, this.maxDateStruct);
+            this.atMin = this.timeUtils.datesEqual(this.dateStruct, this.minDateStruct);
+        };
+        // TODO not enforcing limits etc...
+        DateSelectionComponent.prototype.checkReference = function () {
+            if (!this.referenceDate) {
+                return;
+            }
+            var refComponents = mapWald.InterpolationService.interpolate(this.referenceDate, {
+                year: this.date.getFullYear(),
+                month: this.date.getMonth() + 1,
+                date: this.date.getDate()
+            }).split('-').map(function (s) { return +s; });
+            var currentRef = new Date(Date.UTC(refComponents[0], refComponents[1] - 1, refComponents[2]));
+            console.log('currentRef', currentRef);
+            console.log('currentDate', this.date);
+            var timeSpan = MILLISECONDS_PER_DAY * this.stepDays;
+            var days = (this.date.getTime() - currentRef.getTime()) / timeSpan;
+            this.date = new Date(currentRef.getTime() + Math.round(days) * timeSpan);
+            this.dateStruct = this.timeUtils.convertDate(this.date);
+        };
+        DateSelectionComponent.ɵfac = function DateSelectionComponent_Factory(t) { return new (t || DateSelectionComponent)(i0.ɵɵdirectiveInject(i1.TimeUtilsService)); };
+        DateSelectionComponent.ɵcmp = i0.ɵɵdefineComponent({ type: DateSelectionComponent, selectors: [["date-selection"]], inputs: { date: "date", timestep: "timestep", minDate: "minDate", maxDate: "maxDate", style: "style", stepDays: "stepDays", referenceDate: "referenceDate", disabled: "disabled" }, outputs: { dateChange: "dateChange" }, features: [i0.ɵɵNgOnChangesFeature], decls: 3, vars: 2, consts: [[1, "date-control", "container-fluid"], ["class", "row no-gutters", 4, "ngIf"], [4, "ngIf"], [1, "row", "no-gutters"], [1, "col-8", "form-group-inline"], [1, "input-group", "input-group-sm"], ["placeholder", "yyyy-mm-dd", "name", "dp", "ngbDatepicker", "", 1, "form-control", "form-control-sm", 3, "ngModel", "maxDate", "minDate", "disabled", "ngModelChange"], ["d", "ngbDatepicker"], [1, "input-group-addon", 3, "click"], [1, "fa", "fa-calendar"], [3, "src", "property", "label", "step", "disabled", "changed", 4, "ngIf"], [3, "src", "property", "label", "disabled", "changed", 4, "ngIf"], [3, "src", "property", "label", "step", "disabled", "changed"], [3, "src", "property", "label", "disabled", "changed"]], template: function DateSelectionComponent_Template(rf, ctx) { if (rf & 1) {
+                i0.ɵɵelementStart(0, "div", 0);
+                i0.ɵɵtemplate(1, DateSelectionComponent_div_1_Template, 7, 4, "div", 1);
+                i0.ɵɵtemplate(2, DateSelectionComponent_div_2_Template, 4, 3, "div", 2);
+                i0.ɵɵelementEnd();
+            } if (rf & 2) {
+                i0.ɵɵadvance(1);
+                i0.ɵɵproperty("ngIf", ctx.style !== "arrows");
+                i0.ɵɵadvance(1);
+                i0.ɵɵproperty("ngIf", ctx.style === "arrows");
+            } }, directives: [common.NgIf, ngBootstrap.NgbInputDatepicker, forms.DefaultValueAccessor, forms.NgControlStatus, forms.NgModel, dateElement_component.DateElementComponent], encapsulation: 2 });
+        return DateSelectionComponent;
+    }());
+    exports.DateSelectionComponent = DateSelectionComponent;
+    /*@__PURE__*/ (function () { i0.ɵsetClassMetadata(DateSelectionComponent, [{
+            type: core.Component,
+            args: [{
+                    selector: 'date-selection',
+                    template: "<div class=\"date-control container-fluid\">\n  <div *ngIf=\"style!=='arrows'\" class=\"row no-gutters\">\n    <div class=\"col-8 form-group-inline\">\n        <div class=\"input-group input-group-sm\">\n          <input class=\"form-control form-control-sm\"\n                 placeholder=\"yyyy-mm-dd\"\n                 name=\"dp\"\n                 [(ngModel)]=\"dateStruct\"\n                 (ngModelChange)=\"dateStructChanged()\"\n                 ngbDatepicker\n                 #d=\"ngbDatepicker\"\n                 [maxDate]=\"maxDateStruct\"\n                 [minDate]=\"minDateStruct\"\n                 [disabled]=\"disabled\">\n          <div class=\"input-group-addon\" (click)=\"disabled||d.toggle()\" >\n            <i class=\"fa fa-calendar\"></i>\n          </div>\n        </div>\n      </div>\n\n    <!--\n      <div class=\"col-2\" >\n        <button class=\"btn btn-secondary btn-sm\" [disabled]=\"atMax\"\n                (click)=\"move(1)\"><i class=\"fa fa-chevron-right\"></i></button>\n      </div>\n    -->\n  </div>\n\n  <div *ngIf=\"style==='arrows'\">\n    <date-element *ngIf=\"need.day\"   [src]=\"dateStruct\" [property]=\"'day'\" [label]=\"'Day'\"\n                  [step]=\"stepDays\"\n                  (changed)=\"dateStructChanged()\"\n                  [disabled]=\"disabled\"></date-element>\n    <date-element *ngIf=\"need.month\" [src]=\"dateStruct\" [property]=\"'month'\" [label]=\"'Month'\"\n                  (changed)=\"dateStructChanged()\"\n                  [disabled]=\"disabled\"></date-element>\n    <date-element *ngIf=\"need.year\"  [src]=\"dateStruct\" [property]=\"'year'\" [label]=\"'Year'\"\n                  (changed)=\"dateStructChanged()\"\n                  [disabled]=\"disabled\"></date-element>\n  </div>\n</div>\n",
+                    styles: []
+                }]
+        }], function () { return [{ type: i1.TimeUtilsService }]; }, { date: [{
+                type: core.Input
+            }], dateChange: [{
+                type: core.Output
+            }], timestep: [{
+                type: core.Input
+            }], minDate: [{
+                type: core.Input
+            }], maxDate: [{
+                type: core.Input
+            }], style: [{
+                type: core.Input
+            }], stepDays: [{
+                type: core.Input
+            }], referenceDate: [{
+                type: core.Input
+            }], disabled: [{
+                type: core.Input
+            }] }); })();
+
+    });
+
+    var dateSelection_component$1 = unwrapExports(dateSelection_component);
+    var dateSelection_component_1 = dateSelection_component.DateSelectionComponent;
+
     var basemapDescriptor = createCommonjsModule(function (module, exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
@@ -1179,6 +1469,8 @@
 
 
 
+
+
     var i0 = core;
     __exportStar(data, exports);
     __exportStar(leaflet_service, exports);
@@ -1190,6 +1482,8 @@
     __exportStar(oneTimeSplash_component, exports);
     __exportStar(vectorTileLayer_component, exports);
     __exportStar(wmsLayer_component, exports);
+    __exportStar(dateElement_component, exports);
+    __exportStar(dateSelection_component, exports);
     var components = [
         //$componentList
         draw_component.DrawComponent,
@@ -1199,7 +1493,9 @@
         mapControl_component.MapControlComponent,
         oneTimeSplash_component.OneTimeSplashComponent,
         vectorTileLayer_component.VectorTileLayerComponent,
-        wmsLayer_component.WmsLayerComponent
+        wmsLayer_component.WmsLayerComponent,
+        dateElement_component.DateElementComponent,
+        dateSelection_component.DateSelectionComponent
     ];
     var services = [
         //$serviceList
@@ -1234,7 +1530,9 @@
             mapControl_component.MapControlComponent,
             oneTimeSplash_component.OneTimeSplashComponent,
             vectorTileLayer_component.VectorTileLayerComponent,
-            wmsLayer_component.WmsLayerComponent], imports: [common.CommonModule,
+            wmsLayer_component.WmsLayerComponent,
+            dateElement_component.DateElementComponent,
+            dateSelection_component.DateSelectionComponent], imports: [common.CommonModule,
             forms.FormsModule,
             http.HttpClientModule,
             ngBootstrap.NgbModule,
@@ -1247,7 +1545,9 @@
             mapControl_component.MapControlComponent,
             oneTimeSplash_component.OneTimeSplashComponent,
             vectorTileLayer_component.VectorTileLayerComponent,
-            wmsLayer_component.WmsLayerComponent] }); })();
+            wmsLayer_component.WmsLayerComponent,
+            dateElement_component.DateElementComponent,
+            dateSelection_component.DateSelectionComponent] }); })();
     /*@__PURE__*/ (function () { i0.ɵsetClassMetadata(MapWaldLeafletModule, [{
             type: core.NgModule,
             args: [{
