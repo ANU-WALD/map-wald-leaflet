@@ -1202,58 +1202,78 @@ var i1 = mapWald;
 
 
 
+function DateSelectionComponent_div_1_div_3_Template(rf, ctx) { if (rf & 1) {
+    var _r6 = i0.ɵɵgetCurrentView();
+    i0.ɵɵelementStart(0, "div", 9);
+    i0.ɵɵlistener("click", function DateSelectionComponent_div_1_div_3_Template_div_click_0_listener() { i0.ɵɵrestoreView(_r6); var ctx_r5 = i0.ɵɵnextContext(2); return ctx_r5.move(-ctx_r5.stepDays); });
+    i0.ɵɵelement(1, "i", 11);
+    i0.ɵɵelementEnd();
+} }
+function DateSelectionComponent_div_1_div_8_Template(rf, ctx) { if (rf & 1) {
+    var _r8 = i0.ɵɵgetCurrentView();
+    i0.ɵɵelementStart(0, "div", 9);
+    i0.ɵɵlistener("click", function DateSelectionComponent_div_1_div_8_Template_div_click_0_listener() { i0.ɵɵrestoreView(_r8); var ctx_r7 = i0.ɵɵnextContext(2); return ctx_r7.move(ctx_r7.stepDays); });
+    i0.ɵɵelement(1, "i", 12);
+    i0.ɵɵelementEnd();
+} }
 function DateSelectionComponent_div_1_Template(rf, ctx) { if (rf & 1) {
-    var _r4 = i0.ɵɵgetCurrentView();
+    var _r10 = i0.ɵɵgetCurrentView();
     i0.ɵɵelementStart(0, "div", 3);
     i0.ɵɵelementStart(1, "div", 4);
     i0.ɵɵelementStart(2, "div", 5);
-    i0.ɵɵelementStart(3, "input", 6, 7);
-    i0.ɵɵlistener("ngModelChange", function DateSelectionComponent_div_1_Template_input_ngModelChange_3_listener($event) { i0.ɵɵrestoreView(_r4); var ctx_r3 = i0.ɵɵnextContext(); return ctx_r3.dateStruct = $event; })("ngModelChange", function DateSelectionComponent_div_1_Template_input_ngModelChange_3_listener() { i0.ɵɵrestoreView(_r4); var ctx_r5 = i0.ɵɵnextContext(); return ctx_r5.dateStructChanged(); });
+    i0.ɵɵtemplate(3, DateSelectionComponent_div_1_div_3_Template, 2, 0, "div", 6);
+    i0.ɵɵelementStart(4, "input", 7, 8);
+    i0.ɵɵlistener("ngModelChange", function DateSelectionComponent_div_1_Template_input_ngModelChange_4_listener($event) { i0.ɵɵrestoreView(_r10); var ctx_r9 = i0.ɵɵnextContext(); return ctx_r9.dateStruct = $event; })("ngModelChange", function DateSelectionComponent_div_1_Template_input_ngModelChange_4_listener() { i0.ɵɵrestoreView(_r10); var ctx_r11 = i0.ɵɵnextContext(); return ctx_r11.dateStructChanged(); });
     i0.ɵɵelementEnd();
-    i0.ɵɵelementStart(5, "div", 8);
-    i0.ɵɵlistener("click", function DateSelectionComponent_div_1_Template_div_click_5_listener() { i0.ɵɵrestoreView(_r4); var _r2 = i0.ɵɵreference(4); var ctx_r6 = i0.ɵɵnextContext(); return ctx_r6.disabled || _r2.toggle(); });
-    i0.ɵɵelement(6, "i", 9);
+    i0.ɵɵelementStart(6, "div", 9);
+    i0.ɵɵlistener("click", function DateSelectionComponent_div_1_Template_div_click_6_listener() { i0.ɵɵrestoreView(_r10); var _r3 = i0.ɵɵreference(5); var ctx_r12 = i0.ɵɵnextContext(); return ctx_r12.disabled || _r3.toggle(); });
+    i0.ɵɵelement(7, "i", 10);
     i0.ɵɵelementEnd();
+    i0.ɵɵtemplate(8, DateSelectionComponent_div_1_div_8_Template, 2, 0, "div", 6);
     i0.ɵɵelementEnd();
     i0.ɵɵelementEnd();
     i0.ɵɵelementEnd();
 } if (rf & 2) {
     var ctx_r0 = i0.ɵɵnextContext();
     i0.ɵɵadvance(3);
+    i0.ɵɵproperty("ngIf", ctx_r0.step);
+    i0.ɵɵadvance(1);
     i0.ɵɵproperty("ngModel", ctx_r0.dateStruct)("maxDate", ctx_r0.maxDateStruct)("minDate", ctx_r0.minDateStruct)("disabled", ctx_r0.disabled);
+    i0.ɵɵadvance(4);
+    i0.ɵɵproperty("ngIf", ctx_r0.step);
 } }
 function DateSelectionComponent_div_2_date_element_1_Template(rf, ctx) { if (rf & 1) {
-    var _r11 = i0.ɵɵgetCurrentView();
-    i0.ɵɵelementStart(0, "date-element", 12);
-    i0.ɵɵlistener("changed", function DateSelectionComponent_div_2_date_element_1_Template_date_element_changed_0_listener() { i0.ɵɵrestoreView(_r11); var ctx_r10 = i0.ɵɵnextContext(2); return ctx_r10.dateStructChanged(); });
+    var _r17 = i0.ɵɵgetCurrentView();
+    i0.ɵɵelementStart(0, "date-element", 15);
+    i0.ɵɵlistener("changed", function DateSelectionComponent_div_2_date_element_1_Template_date_element_changed_0_listener() { i0.ɵɵrestoreView(_r17); var ctx_r16 = i0.ɵɵnextContext(2); return ctx_r16.dateStructChanged(); });
     i0.ɵɵelementEnd();
 } if (rf & 2) {
-    var ctx_r7 = i0.ɵɵnextContext(2);
-    i0.ɵɵproperty("src", ctx_r7.dateStruct)("property", "day")("label", "Day")("step", ctx_r7.stepDays)("disabled", ctx_r7.disabled);
+    var ctx_r13 = i0.ɵɵnextContext(2);
+    i0.ɵɵproperty("src", ctx_r13.dateStruct)("property", "day")("label", "Day")("step", ctx_r13.stepDays)("disabled", ctx_r13.disabled);
 } }
 function DateSelectionComponent_div_2_date_element_2_Template(rf, ctx) { if (rf & 1) {
-    var _r13 = i0.ɵɵgetCurrentView();
-    i0.ɵɵelementStart(0, "date-element", 13);
-    i0.ɵɵlistener("changed", function DateSelectionComponent_div_2_date_element_2_Template_date_element_changed_0_listener() { i0.ɵɵrestoreView(_r13); var ctx_r12 = i0.ɵɵnextContext(2); return ctx_r12.dateStructChanged(); });
+    var _r19 = i0.ɵɵgetCurrentView();
+    i0.ɵɵelementStart(0, "date-element", 16);
+    i0.ɵɵlistener("changed", function DateSelectionComponent_div_2_date_element_2_Template_date_element_changed_0_listener() { i0.ɵɵrestoreView(_r19); var ctx_r18 = i0.ɵɵnextContext(2); return ctx_r18.dateStructChanged(); });
     i0.ɵɵelementEnd();
 } if (rf & 2) {
-    var ctx_r8 = i0.ɵɵnextContext(2);
-    i0.ɵɵproperty("src", ctx_r8.dateStruct)("property", "month")("label", "Month")("disabled", ctx_r8.disabled);
+    var ctx_r14 = i0.ɵɵnextContext(2);
+    i0.ɵɵproperty("src", ctx_r14.dateStruct)("property", "month")("label", "Month")("disabled", ctx_r14.disabled);
 } }
 function DateSelectionComponent_div_2_date_element_3_Template(rf, ctx) { if (rf & 1) {
-    var _r15 = i0.ɵɵgetCurrentView();
-    i0.ɵɵelementStart(0, "date-element", 13);
-    i0.ɵɵlistener("changed", function DateSelectionComponent_div_2_date_element_3_Template_date_element_changed_0_listener() { i0.ɵɵrestoreView(_r15); var ctx_r14 = i0.ɵɵnextContext(2); return ctx_r14.dateStructChanged(); });
+    var _r21 = i0.ɵɵgetCurrentView();
+    i0.ɵɵelementStart(0, "date-element", 16);
+    i0.ɵɵlistener("changed", function DateSelectionComponent_div_2_date_element_3_Template_date_element_changed_0_listener() { i0.ɵɵrestoreView(_r21); var ctx_r20 = i0.ɵɵnextContext(2); return ctx_r20.dateStructChanged(); });
     i0.ɵɵelementEnd();
 } if (rf & 2) {
-    var ctx_r9 = i0.ɵɵnextContext(2);
-    i0.ɵɵproperty("src", ctx_r9.dateStruct)("property", "year")("label", "Year")("disabled", ctx_r9.disabled);
+    var ctx_r15 = i0.ɵɵnextContext(2);
+    i0.ɵɵproperty("src", ctx_r15.dateStruct)("property", "year")("label", "Year")("disabled", ctx_r15.disabled);
 } }
 function DateSelectionComponent_div_2_Template(rf, ctx) { if (rf & 1) {
     i0.ɵɵelementStart(0, "div");
-    i0.ɵɵtemplate(1, DateSelectionComponent_div_2_date_element_1_Template, 1, 5, "date-element", 10);
-    i0.ɵɵtemplate(2, DateSelectionComponent_div_2_date_element_2_Template, 1, 4, "date-element", 11);
-    i0.ɵɵtemplate(3, DateSelectionComponent_div_2_date_element_3_Template, 1, 4, "date-element", 11);
+    i0.ɵɵtemplate(1, DateSelectionComponent_div_2_date_element_1_Template, 1, 5, "date-element", 13);
+    i0.ɵɵtemplate(2, DateSelectionComponent_div_2_date_element_2_Template, 1, 4, "date-element", 14);
+    i0.ɵɵtemplate(3, DateSelectionComponent_div_2_date_element_3_Template, 1, 4, "date-element", 14);
     i0.ɵɵelementEnd();
 } if (rf & 2) {
     var ctx_r1 = i0.ɵɵnextContext();
@@ -1273,6 +1293,7 @@ var DateSelectionComponent = /** @class */ (function () {
         this.stepDays = 1;
         this.referenceDate = null;
         this.disabled = false;
+        this.step = false;
         this.need = {
             day: true,
             month: true,
@@ -1348,9 +1369,9 @@ var DateSelectionComponent = /** @class */ (function () {
         this.dateStruct = this.timeUtils.convertDate(this.date);
     };
     DateSelectionComponent.ɵfac = function DateSelectionComponent_Factory(t) { return new (t || DateSelectionComponent)(i0.ɵɵdirectiveInject(i1.TimeUtilsService)); };
-    DateSelectionComponent.ɵcmp = i0.ɵɵdefineComponent({ type: DateSelectionComponent, selectors: [["date-selection"]], inputs: { date: "date", timestep: "timestep", minDate: "minDate", maxDate: "maxDate", style: "style", stepDays: "stepDays", referenceDate: "referenceDate", disabled: "disabled" }, outputs: { dateChange: "dateChange" }, features: [i0.ɵɵNgOnChangesFeature], decls: 3, vars: 2, consts: [[1, "date-control", "container-fluid"], ["class", "row no-gutters", 4, "ngIf"], [4, "ngIf"], [1, "row", "no-gutters"], [1, "col-8", "form-group-inline"], [1, "input-group", "input-group-sm"], ["placeholder", "yyyy-mm-dd", "name", "dp", "ngbDatepicker", "", 1, "form-control", "form-control-sm", 3, "ngModel", "maxDate", "minDate", "disabled", "ngModelChange"], ["d", "ngbDatepicker"], [1, "input-group-addon", 3, "click"], [1, "fa", "fa-calendar"], [3, "src", "property", "label", "step", "disabled", "changed", 4, "ngIf"], [3, "src", "property", "label", "disabled", "changed", 4, "ngIf"], [3, "src", "property", "label", "step", "disabled", "changed"], [3, "src", "property", "label", "disabled", "changed"]], template: function DateSelectionComponent_Template(rf, ctx) { if (rf & 1) {
+    DateSelectionComponent.ɵcmp = i0.ɵɵdefineComponent({ type: DateSelectionComponent, selectors: [["date-selection"]], inputs: { date: "date", timestep: "timestep", minDate: "minDate", maxDate: "maxDate", style: "style", stepDays: "stepDays", referenceDate: "referenceDate", disabled: "disabled", step: "step" }, outputs: { dateChange: "dateChange" }, features: [i0.ɵɵNgOnChangesFeature], decls: 3, vars: 2, consts: [[1, "date-control", "container-fluid"], ["class", "row no-gutters", 4, "ngIf"], [4, "ngIf"], [1, "row", "no-gutters"], [1, "col-12", "form-group-inline"], [1, "input-group", "input-group-sm"], ["class", "ds-btn input-group-addon", 3, "click", 4, "ngIf"], ["placeholder", "yyyy-mm-dd", "name", "dp", "ngbDatepicker", "", 1, "form-control", "form-control-sm", 3, "ngModel", "maxDate", "minDate", "disabled", "ngModelChange"], ["d", "ngbDatepicker"], [1, "ds-btn", "input-group-addon", 3, "click"], [1, "fa", "fa-calendar"], [1, "fa", "fa-angle-left"], [1, "fa", "fa-angle-right"], [3, "src", "property", "label", "step", "disabled", "changed", 4, "ngIf"], [3, "src", "property", "label", "disabled", "changed", 4, "ngIf"], [3, "src", "property", "label", "step", "disabled", "changed"], [3, "src", "property", "label", "disabled", "changed"]], template: function DateSelectionComponent_Template(rf, ctx) { if (rf & 1) {
             i0.ɵɵelementStart(0, "div", 0);
-            i0.ɵɵtemplate(1, DateSelectionComponent_div_1_Template, 7, 4, "div", 1);
+            i0.ɵɵtemplate(1, DateSelectionComponent_div_1_Template, 9, 6, "div", 1);
             i0.ɵɵtemplate(2, DateSelectionComponent_div_2_Template, 4, 3, "div", 2);
             i0.ɵɵelementEnd();
         } if (rf & 2) {
@@ -1358,7 +1379,7 @@ var DateSelectionComponent = /** @class */ (function () {
             i0.ɵɵproperty("ngIf", ctx.style !== "arrows");
             i0.ɵɵadvance(1);
             i0.ɵɵproperty("ngIf", ctx.style === "arrows");
-        } }, directives: [common.NgIf, ngBootstrap.NgbInputDatepicker, forms.DefaultValueAccessor, forms.NgControlStatus, forms.NgModel, dateElement_component.DateElementComponent], encapsulation: 2 });
+        } }, directives: [common.NgIf, ngBootstrap.NgbInputDatepicker, forms.DefaultValueAccessor, forms.NgControlStatus, forms.NgModel, dateElement_component.DateElementComponent], styles: [".dc-btn[_ngcontent-%COMP%] {\n    min-width:10px;\n  }"] });
     return DateSelectionComponent;
 }());
 exports.DateSelectionComponent = DateSelectionComponent;
@@ -1366,8 +1387,9 @@ exports.DateSelectionComponent = DateSelectionComponent;
         type: core.Component,
         args: [{
                 selector: 'date-selection',
-                template: "<div class=\"date-control container-fluid\">\n  <div *ngIf=\"style!=='arrows'\" class=\"row no-gutters\">\n    <div class=\"col-8 form-group-inline\">\n        <div class=\"input-group input-group-sm\">\n          <input class=\"form-control form-control-sm\"\n                 placeholder=\"yyyy-mm-dd\"\n                 name=\"dp\"\n                 [(ngModel)]=\"dateStruct\"\n                 (ngModelChange)=\"dateStructChanged()\"\n                 ngbDatepicker\n                 #d=\"ngbDatepicker\"\n                 [maxDate]=\"maxDateStruct\"\n                 [minDate]=\"minDateStruct\"\n                 [disabled]=\"disabled\">\n          <div class=\"input-group-addon\" (click)=\"disabled||d.toggle()\" >\n            <i class=\"fa fa-calendar\"></i>\n          </div>\n        </div>\n      </div>\n\n    <!--\n      <div class=\"col-2\" >\n        <button class=\"btn btn-secondary btn-sm\" [disabled]=\"atMax\"\n                (click)=\"move(1)\"><i class=\"fa fa-chevron-right\"></i></button>\n      </div>\n    -->\n  </div>\n\n  <div *ngIf=\"style==='arrows'\">\n    <date-element *ngIf=\"need.day\"   [src]=\"dateStruct\" [property]=\"'day'\" [label]=\"'Day'\"\n                  [step]=\"stepDays\"\n                  (changed)=\"dateStructChanged()\"\n                  [disabled]=\"disabled\"></date-element>\n    <date-element *ngIf=\"need.month\" [src]=\"dateStruct\" [property]=\"'month'\" [label]=\"'Month'\"\n                  (changed)=\"dateStructChanged()\"\n                  [disabled]=\"disabled\"></date-element>\n    <date-element *ngIf=\"need.year\"  [src]=\"dateStruct\" [property]=\"'year'\" [label]=\"'Year'\"\n                  (changed)=\"dateStructChanged()\"\n                  [disabled]=\"disabled\"></date-element>\n  </div>\n</div>\n",
-                styles: []
+                template: "<div class=\"date-control container-fluid\">\n  <div *ngIf=\"style!=='arrows'\" class=\"row no-gutters\">\n    <div class=\"col-12 form-group-inline\">\n        <div class=\"input-group input-group-sm\">\n          <div *ngIf=\"step\" class=\"ds-btn input-group-addon\" (click)=\"move(-stepDays)\">\n            <i class=\"fa fa-angle-left\"></i>\n          </div>\n          <input class=\"form-control form-control-sm\"\n                 placeholder=\"yyyy-mm-dd\"\n                 name=\"dp\"\n                 [(ngModel)]=\"dateStruct\"\n                 (ngModelChange)=\"dateStructChanged()\"\n                 ngbDatepicker\n                 #d=\"ngbDatepicker\"\n                 [maxDate]=\"maxDateStruct\"\n                 [minDate]=\"minDateStruct\"\n                 [disabled]=\"disabled\">\n          <div class=\"ds-btn input-group-addon\" (click)=\"disabled||d.toggle()\" >\n            <i class=\"fa fa-calendar\"></i>\n          </div>\n          <div *ngIf=\"step\" class=\"ds-btn input-group-addon\" (click)=\"move(stepDays)\">\n            <i class=\"fa fa-angle-right\"></i>\n          </div>\n        </div>\n      </div>\n\n    <!--\n      <div class=\"col-2\" >\n        <button class=\"btn btn-secondary btn-sm\" [disabled]=\"atMax\"\n                (click)=\"move(1)\"><i class=\"fa fa-chevron-right\"></i></button>\n      </div>\n    -->\n  </div>\n\n  <div *ngIf=\"style==='arrows'\">\n    <date-element *ngIf=\"need.day\"   [src]=\"dateStruct\" [property]=\"'day'\" [label]=\"'Day'\"\n                  [step]=\"stepDays\"\n                  (changed)=\"dateStructChanged()\"\n                  [disabled]=\"disabled\"></date-element>\n    <date-element *ngIf=\"need.month\" [src]=\"dateStruct\" [property]=\"'month'\" [label]=\"'Month'\"\n                  (changed)=\"dateStructChanged()\"\n                  [disabled]=\"disabled\"></date-element>\n    <date-element *ngIf=\"need.year\"  [src]=\"dateStruct\" [property]=\"'year'\" [label]=\"'Year'\"\n                  (changed)=\"dateStructChanged()\"\n                  [disabled]=\"disabled\"></date-element>\n  </div>\n</div>\n", styles: [
+                    "\n  .dc-btn {\n    min-width:10px;\n  }\n  "
+                ]
             }]
     }], function () { return [{ type: i1.TimeUtilsService }]; }, { date: [{
             type: core.Input
@@ -1386,6 +1408,8 @@ exports.DateSelectionComponent = DateSelectionComponent;
         }], referenceDate: [{
             type: core.Input
         }], disabled: [{
+            type: core.Input
+        }], step: [{
             type: core.Input
         }] }); })();
 

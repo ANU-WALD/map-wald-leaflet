@@ -13,6 +13,7 @@ export declare class DateSelectionComponent implements AfterViewInit {
     stepDays: number;
     referenceDate: string;
     disabled: boolean;
+    step: boolean;
     need: {
         day: boolean;
         month: boolean;
@@ -33,5 +34,5 @@ export declare class DateSelectionComponent implements AfterViewInit {
     checkLimits(): void;
     checkReference(): any;
     static ɵfac: i0.ɵɵFactoryDef<DateSelectionComponent, never>;
-    static ɵcmp: i0.ɵɵComponentDefWithMeta<DateSelectionComponent, "date-selection", never, { "date": "date"; "timestep": "timestep"; "minDate": "minDate"; "maxDate": "maxDate"; "style": "style"; "stepDays": "stepDays"; "referenceDate": "referenceDate"; "disabled": "disabled"; }, { "dateChange": "dateChange"; }, never, never>;
+    static ɵcmp: i0.ɵɵComponentDefWithMeta<DateSelectionComponent, "date-selection", never, { "date": "date"; "timestep": "timestep"; "minDate": "minDate"; "maxDate": "maxDate"; "style": "style"; "stepDays": "stepDays"; "referenceDate": "referenceDate"; "disabled": "disabled"; "step": "step"; }, { "dateChange": "dateChange"; }, never, never>;
 }
