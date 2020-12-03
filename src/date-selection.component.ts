@@ -12,11 +12,17 @@ declare var Plotly: any;
   <div *ngIf="style!=='arrows'" class="row no-gutters">
     <div class="col-8 form-group-inline">
         <div class="input-group input-group-sm">
-          <input class="form-control form-control-sm" placeholder="yyyy-mm-dd"
-                 name="dp" [(ngModel)]="dateStruct" (ngModelChange)="dateStructChanged()"
-                 ngbDatepicker #d="ngbDatepicker"
-                 [maxDate]="maxDateStruct" [minDate]="minDateStruct">
-          <div class="input-group-addon" (click)="d.toggle()" >
+          <input class="form-control form-control-sm"
+                 placeholder="yyyy-mm-dd"
+                 name="dp"
+                 [(ngModel)]="dateStruct"
+                 (ngModelChange)="dateStructChanged()"
+                 ngbDatepicker
+                 #d="ngbDatepicker"
+                 [maxDate]="maxDateStruct"
+                 [minDate]="minDateStruct"
+                 [disabled]="disabled">
+          <div class="input-group-addon" (click)="disabled||d.toggle()" >
             <i class="fa fa-calendar"></i>
           </div>
         </div>
@@ -33,11 +39,14 @@ declare var Plotly: any;
   <div *ngIf="style==='arrows'">
     <date-element *ngIf="need.day"   [src]="dateStruct" [property]="'day'" [label]="'Day'"
                   [step]="stepDays"
-                  (changed)="dateStructChanged()"></date-element>
+                  (changed)="dateStructChanged()"
+                  [disabled]="disabled"></date-element>
     <date-element *ngIf="need.month" [src]="dateStruct" [property]="'month'" [label]="'Month'"
-                  (changed)="dateStructChanged()"></date-element>
+                  (changed)="dateStructChanged()"
+                  [disabled]="disabled"></date-element>
     <date-element *ngIf="need.year"  [src]="dateStruct" [property]="'year'" [label]="'Year'"
-                  (changed)="dateStructChanged()"></date-element>
+                  (changed)="dateStructChanged()"
+                  [disabled]="disabled"></date-element>
   </div>
 </div>
 `,styles: []})
@@ -50,6 +59,7 @@ export class DateSelectionComponent implements AfterViewInit  {
   @Input() style: ('popup'|'arrows') = 'arrows';
   @Input() stepDays = 1;
   @Input() referenceDate:string = null;
+  @Input() disabled = false;
 
   need = {
     day:true,
