@@ -1446,7 +1446,7 @@ DateSelectionComponent.ɵcmp = i0.ɵɵdefineComponent({ type: DateSelectionCompo
         i0.ɵɵproperty("ngIf", ctx.style !== "arrows");
         i0.ɵɵadvance(1);
         i0.ɵɵproperty("ngIf", ctx.style === "arrows");
-    } }, directives: [common.NgIf, ngBootstrap.NgbInputDatepicker, forms.DefaultValueAccessor, forms.NgControlStatus, forms.NgModel, dateElement_component.DateElementComponent], styles: [".dc-btn[_ngcontent-%COMP%] {\n    min-width:10px;\n  }"] });
+    } }, directives: [common.NgIf, ngBootstrap.NgbInputDatepicker, forms.DefaultValueAccessor, forms.NgControlStatus, forms.NgModel, dateElement_component.DateElementComponent], styles: [".ds-btn[_ngcontent-%COMP%] {\n    min-width:10px;\n  }"] });
 /*@__PURE__*/ (function () { i0.ɵsetClassMetadata(DateSelectionComponent, [{
         type: core.Component,
         args: [{
@@ -1500,7 +1500,7 @@ DateSelectionComponent.ɵcmp = i0.ɵɵdefineComponent({ type: DateSelectionCompo
 </div>
 `, styles: [
                     `
-  .dc-btn {
+  .ds-btn {
     min-width:10px;
   }
   `

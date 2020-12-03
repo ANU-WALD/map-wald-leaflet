@@ -57,7 +57,7 @@ declare var Plotly: any;
 </div>
 `,styles: [
   `
-  .dc-btn {
+  .ds-btn {
     min-width:10px;
   }
   `
