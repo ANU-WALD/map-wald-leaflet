@@ -87,7 +87,7 @@ export class LeafletMapComponent implements OnInit, OnChanges {
           // this.baseLayer.removeFrom(this.map);
         } else if(this.baseMap) {
           this.createBaseLayer();
-          this.baseLayer.addTo(this.map);
+          this.baseLayer.addTo(this.map).bringToBack();
         }
       }
     });
