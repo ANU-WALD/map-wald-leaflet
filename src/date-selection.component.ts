@@ -10,8 +10,11 @@ declare var Plotly: any;
   selector: 'date-selection',
   template: `<div class="date-control container-fluid">
   <div *ngIf="style!=='arrows'" class="row no-gutters">
-    <div class="col-8 form-group-inline">
+    <div class="col-12 form-group-inline">
         <div class="input-group input-group-sm">
+          <div *ngIf="step" class="ds-btn input-group-addon" (click)="move(-stepDays)">
+            <i class="fa fa-angle-left"></i>
+          </div>
           <input class="form-control form-control-sm"
                  placeholder="yyyy-mm-dd"
                  name="dp"
@@ -22,8 +25,11 @@ declare var Plotly: any;
                  [maxDate]="maxDateStruct"
                  [minDate]="minDateStruct"
                  [disabled]="disabled">
-          <div class="input-group-addon" (click)="disabled||d.toggle()" >
+          <div class="ds-btn input-group-addon" (click)="disabled||d.toggle()" >
             <i class="fa fa-calendar"></i>
+          </div>
+          <div *ngIf="step" class="ds-btn input-group-addon" (click)="move(stepDays)">
+            <i class="fa fa-angle-right"></i>
           </div>
         </div>
       </div>
@@ -49,7 +55,13 @@ declare var Plotly: any;
                   [disabled]="disabled"></date-element>
   </div>
 </div>
-`,styles: []})
+`,styles: [
+  `
+  .dc-btn {
+    min-width:10px;
+  }
+  `
+]})
 export class DateSelectionComponent implements AfterViewInit  {
   @Input() date: Date;
   @Output() dateChange = new EventEmitter();
@@ -60,6 +72,7 @@ export class DateSelectionComponent implements AfterViewInit  {
   @Input() stepDays = 1;
   @Input() referenceDate:string = null;
   @Input() disabled = false;
+  @Input() step = false;
 
   need = {
     day:true,
