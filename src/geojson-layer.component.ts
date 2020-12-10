@@ -10,6 +10,11 @@ const STYLES = {
   weight: 1.0
 };
 
+export enum PointMode {
+  default,
+  circle
+}
+
 @Component({
   selector: 'geojson-layer',
   template: '',
@@ -17,8 +22,11 @@ const STYLES = {
 })
 export class GeojsonLayerComponent implements OnInit, OnChanges, OnDestroy {
   @Input() url: string;
+  @Input() features: any;
   @Input() styles: any;
   @Input() sublayers: TiledSublayerDescriptor[] = [];
+  @Input() pointMode:PointMode = PointMode.default;
+
   // @Input() idColumn = 'id';
   @Output() featureSelected = new EventEmitter<any>();
 
@@ -49,38 +57,57 @@ export class GeojsonLayerComponent implements OnInit, OnChanges, OnDestroy {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.url) {
-      this.http.get(this.url).subscribe((data: any) => {
-        if (changes.url.currentValue !== this.url) {
-          // out of date!
-          return;
-        }
-
-        this.map.map.then(m => {
-          this.remove(m);
-          if (this.destroyed) {
-            return;
-          }
-
-          this.vectorLayer = L.geoJSON(data, {
-            // interactive: true
-            style: STYLES
-          });
-
-          this.vectorLayer.on('click' as any, (event) => {
-            if (this.selectedFeature) {
-              this.vectorLayer.resetStyle(this.selectedFeature);
-              // resetFeatureStyle(this.selectedFeature);
-            }
-            this.selectedFeature = event.layer;
-            this.selectedFeature.setStyle({
-              weight:5
-            });
-
-            this.featureSelected.emit(this.selectedFeature.feature);
-          });
-          this.vectorLayer.addTo(m);
-        });
-      });
+      this.downloadLayer(changes.url.currentValue);
+    } else if(changes.features||changes.pointMode){
+      this.makeLayer();
     }
+  }
+
+  downloadLayer(url:string): void {
+    this.http.get(this.url).subscribe((data: any) => {
+      if (url !== this.url) {
+        // out of date!
+        return;
+      }
+      this.features = data;
+
+      this.makeLayer();
+    });
+  }
+
+  makeLayer(): void {
+    this.map.map.then(m => {
+      this.remove(m);
+      if (this.destroyed) {
+        return;
+      }
+
+      const options:L.GeoJSONOptions = {
+        // interactive: true
+        style: STYLES
+      };
+
+      if(this.pointMode===PointMode.circle){
+        options.pointToLayer = (feature, latlng) => {
+          return L.circleMarker(latlng);
+        };
+      }
+
+      this.vectorLayer = L.geoJSON(this.features, options);
+
+      this.vectorLayer.on('click' as any, (event) => {
+        if (this.selectedFeature) {
+          this.vectorLayer.resetStyle(this.selectedFeature);
+          // resetFeatureStyle(this.selectedFeature);
+        }
+        this.selectedFeature = event.layer;
+        this.selectedFeature.setStyle({
+          weight:5
+        });
+
+        this.featureSelected.emit(this.selectedFeature.feature);
+      });
+      this.vectorLayer.addTo(m);
+    });
   }
 }
