@@ -355,7 +355,7 @@ var draw_component_1 = draw_component.DrawComponent;
 var geojsonLayer_component = createCommonjsModule(function (module, exports) {
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.GeojsonLayerComponent = void 0;
+exports.GeojsonLayerComponent = exports.PointMode = void 0;
 
 
 
@@ -368,12 +368,18 @@ const STYLES = {
     fillOpacity: 0.0,
     weight: 1.0
 };
+var PointMode;
+(function (PointMode) {
+    PointMode[PointMode["default"] = 0] = "default";
+    PointMode[PointMode["circle"] = 1] = "circle";
+})(PointMode = exports.PointMode || (exports.PointMode = {}));
 class GeojsonLayerComponent {
     // private data: any;
     constructor(http, map) {
         this.http = http;
         this.map = map;
         this.sublayers = [];
+        this.pointMode = PointMode.default;
         // @Input() idColumn = 'id';
         this.featureSelected = new core.EventEmitter();
         this.destroyed = false;
@@ -394,40 +400,56 @@ class GeojsonLayerComponent {
     }
     ngOnChanges(changes) {
         if (changes.url) {
-            this.http.get(this.url).subscribe((data) => {
-                if (changes.url.currentValue !== this.url) {
-                    // out of date!
-                    return;
-                }
-                this.map.map.then(m => {
-                    this.remove(m);
-                    if (this.destroyed) {
-                        return;
-                    }
-                    this.vectorLayer = leaflet.geoJSON(data, {
-                        // interactive: true
-                        style: STYLES
-                    });
-                    this.vectorLayer.on('click', (event) => {
-                        if (this.selectedFeature) {
-                            this.vectorLayer.resetStyle(this.selectedFeature);
-                            // resetFeatureStyle(this.selectedFeature);
-                        }
-                        this.selectedFeature = event.layer;
-                        this.selectedFeature.setStyle({
-                            weight: 5
-                        });
-                        this.featureSelected.emit(this.selectedFeature.feature);
-                    });
-                    this.vectorLayer.addTo(m);
-                });
-            });
+            this.downloadLayer(changes.url.currentValue);
         }
+        else if (changes.features || changes.pointMode) {
+            this.makeLayer();
+        }
+    }
+    downloadLayer(url) {
+        this.http.get(this.url).subscribe((data) => {
+            if (url !== this.url) {
+                // out of date!
+                return;
+            }
+            this.features = data;
+            this.makeLayer();
+        });
+    }
+    makeLayer() {
+        this.map.map.then(m => {
+            this.remove(m);
+            if (this.destroyed) {
+                return;
+            }
+            const options = {
+                // interactive: true
+                style: STYLES
+            };
+            if (this.pointMode === PointMode.circle) {
+                options.pointToLayer = (feature, latlng) => {
+                    return leaflet.circleMarker(latlng);
+                };
+            }
+            this.vectorLayer = leaflet.geoJSON(this.features, options);
+            this.vectorLayer.on('click', (event) => {
+                if (this.selectedFeature) {
+                    this.vectorLayer.resetStyle(this.selectedFeature);
+                    // resetFeatureStyle(this.selectedFeature);
+                }
+                this.selectedFeature = event.layer;
+                this.selectedFeature.setStyle({
+                    weight: 5
+                });
+                this.featureSelected.emit(this.selectedFeature.feature);
+            });
+            this.vectorLayer.addTo(m);
+        });
     }
 }
 exports.GeojsonLayerComponent = GeojsonLayerComponent;
 GeojsonLayerComponent.ɵfac = function GeojsonLayerComponent_Factory(t) { return new (t || GeojsonLayerComponent)(i0.ɵɵdirectiveInject(i1.HttpClient), i0.ɵɵdirectiveInject(i2.LeafletService)); };
-GeojsonLayerComponent.ɵcmp = i0.ɵɵdefineComponent({ type: GeojsonLayerComponent, selectors: [["geojson-layer"]], inputs: { url: "url", styles: "styles", sublayers: "sublayers" }, outputs: { featureSelected: "featureSelected" }, features: [i0.ɵɵNgOnChangesFeature], decls: 0, vars: 0, template: function GeojsonLayerComponent_Template(rf, ctx) { }, styles: [""] });
+GeojsonLayerComponent.ɵcmp = i0.ɵɵdefineComponent({ type: GeojsonLayerComponent, selectors: [["geojson-layer"]], inputs: { url: "url", features: "features", styles: "styles", sublayers: "sublayers", pointMode: "pointMode" }, outputs: { featureSelected: "featureSelected" }, features: [i0.ɵɵNgOnChangesFeature], decls: 0, vars: 0, template: function GeojsonLayerComponent_Template(rf, ctx) { }, styles: [""] });
 /*@__PURE__*/ (function () { i0.ɵsetClassMetadata(GeojsonLayerComponent, [{
         type: core.Component,
         args: [{
@@ -437,9 +459,13 @@ GeojsonLayerComponent.ɵcmp = i0.ɵɵdefineComponent({ type: GeojsonLayerCompone
             }]
     }], function () { return [{ type: i1.HttpClient }, { type: i2.LeafletService }]; }, { url: [{
             type: core.Input
+        }], features: [{
+            type: core.Input
         }], styles: [{
             type: core.Input
         }], sublayers: [{
+            type: core.Input
+        }], pointMode: [{
             type: core.Input
         }], featureSelected: [{
             type: core.Output
@@ -449,6 +475,7 @@ GeojsonLayerComponent.ɵcmp = i0.ɵɵdefineComponent({ type: GeojsonLayerCompone
 
 var geojsonLayer_component$1 = unwrapExports(geojsonLayer_component);
 var geojsonLayer_component_1 = geojsonLayer_component.GeojsonLayerComponent;
+var geojsonLayer_component_2 = geojsonLayer_component.PointMode;
 
 var legend_component = createCommonjsModule(function (module, exports) {
 "use strict";

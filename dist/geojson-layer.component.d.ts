@@ -4,12 +4,18 @@ import { LeafletService } from './leaflet.service';
 import { TiledSublayerDescriptor } from './data';
 import { HttpClient } from '@angular/common/http';
 import * as i0 from "@angular/core";
+export declare enum PointMode {
+    default = 0,
+    circle = 1
+}
 export declare class GeojsonLayerComponent implements OnInit, OnChanges, OnDestroy {
     private http;
     private map;
     url: string;
+    features: any;
     styles: any;
     sublayers: TiledSublayerDescriptor[];
+    pointMode: PointMode;
     featureSelected: EventEmitter<any>;
     private destroyed;
     private selectedFeature;
@@ -19,6 +25,8 @@ export declare class GeojsonLayerComponent implements OnInit, OnChanges, OnDestr
     ngOnDestroy(): void;
     private remove;
     ngOnChanges(changes: SimpleChanges): void;
+    downloadLayer(url: string): void;
+    makeLayer(): void;
     static ɵfac: i0.ɵɵFactoryDef<GeojsonLayerComponent, never>;
-    static ɵcmp: i0.ɵɵComponentDefWithMeta<GeojsonLayerComponent, "geojson-layer", never, { "url": "url"; "styles": "styles"; "sublayers": "sublayers"; }, { "featureSelected": "featureSelected"; }, never, never>;
+    static ɵcmp: i0.ɵɵComponentDefWithMeta<GeojsonLayerComponent, "geojson-layer", never, { "url": "url"; "features": "features"; "styles": "styles"; "sublayers": "sublayers"; "pointMode": "pointMode"; }, { "featureSelected": "featureSelected"; }, never, never>;
 }
