@@ -3,6 +3,7 @@ import 'leaflet.vectorgrid';
 import { LeafletService } from './leaflet.service';
 import { TiledSublayerDescriptor } from './data';
 import { HttpClient } from '@angular/common/http';
+import { StyleValue } from 'map-wald';
 import * as i0 from "@angular/core";
 export declare enum PointMode {
     default = 0,
@@ -13,9 +14,11 @@ export declare class GeojsonLayerComponent implements OnInit, OnChanges, OnDestr
     private map;
     url: string;
     features: any;
-    styles: any;
     sublayers: TiledSublayerDescriptor[];
     pointMode: PointMode;
+    style: {
+        [key: string]: StyleValue;
+    };
     featureSelected: EventEmitter<any>;
     private destroyed;
     private selectedFeature;
@@ -28,5 +31,5 @@ export declare class GeojsonLayerComponent implements OnInit, OnChanges, OnDestr
     downloadLayer(url: string): void;
     makeLayer(): void;
     static ɵfac: i0.ɵɵFactoryDef<GeojsonLayerComponent, never>;
-    static ɵcmp: i0.ɵɵComponentDefWithMeta<GeojsonLayerComponent, "geojson-layer", never, { "url": "url"; "features": "features"; "styles": "styles"; "sublayers": "sublayers"; "pointMode": "pointMode"; }, { "featureSelected": "featureSelected"; }, never, never>;
+    static ɵcmp: i0.ɵɵComponentDefWithMeta<GeojsonLayerComponent, "geojson-layer", never, { "url": "url"; "features": "features"; "sublayers": "sublayers"; "pointMode": "pointMode"; "style": "style"; }, { "featureSelected": "featureSelected"; }, never, never>;
 }

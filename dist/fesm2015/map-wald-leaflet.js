@@ -378,8 +378,10 @@ class GeojsonLayerComponent {
     constructor(http, map) {
         this.http = http;
         this.map = map;
+        // @Input() styles: any;
         this.sublayers = [];
         this.pointMode = PointMode.default;
+        this.style = {};
         // @Input() idColumn = 'id';
         this.featureSelected = new core.EventEmitter();
         this.destroyed = false;
@@ -405,6 +407,9 @@ class GeojsonLayerComponent {
         else if (changes.features || changes.pointMode) {
             this.makeLayer();
         }
+        if (changes.style) {
+            console.log(this.style);
+        }
     }
     downloadLayer(url) {
         this.http.get(this.url).subscribe((data) => {
@@ -422,13 +427,35 @@ class GeojsonLayerComponent {
             if (this.destroyed) {
                 return;
             }
+            const style = (f) => {
+                const styles = Object.assign({}, STYLES);
+                Object.keys(this.style).forEach(k => {
+                    const val = this.style[k];
+                    if (val.getStyleValue) {
+                        styles[k] = val.getStyleValue(f);
+                    }
+                    else {
+                        styles[k] = val;
+                    }
+                });
+                return styles;
+            };
             const options = {
                 // interactive: true
-                style: STYLES
+                style: style
             };
             if (this.pointMode === PointMode.circle) {
                 options.pointToLayer = (feature, latlng) => {
-                    return leaflet.circleMarker(latlng);
+                    let radius = 3;
+                    if (this.style && this.style.radius) {
+                        if (this.style.radius.getStyleValue) {
+                            radius = this.style.radius.getStyleValue(feature);
+                        }
+                        else {
+                            radius = this.style.radius;
+                        }
+                    }
+                    return leaflet.circleMarker(latlng, { radius: radius });
                 };
             }
             this.vectorLayer = leaflet.geoJSON(this.features, options);
@@ -449,7 +476,7 @@ class GeojsonLayerComponent {
 }
 exports.GeojsonLayerComponent = GeojsonLayerComponent;
 GeojsonLayerComponent.ɵfac = function GeojsonLayerComponent_Factory(t) { return new (t || GeojsonLayerComponent)(i0.ɵɵdirectiveInject(i1.HttpClient), i0.ɵɵdirectiveInject(i2.LeafletService)); };
-GeojsonLayerComponent.ɵcmp = i0.ɵɵdefineComponent({ type: GeojsonLayerComponent, selectors: [["geojson-layer"]], inputs: { url: "url", features: "features", styles: "styles", sublayers: "sublayers", pointMode: "pointMode" }, outputs: { featureSelected: "featureSelected" }, features: [i0.ɵɵNgOnChangesFeature], decls: 0, vars: 0, template: function GeojsonLayerComponent_Template(rf, ctx) { }, styles: [""] });
+GeojsonLayerComponent.ɵcmp = i0.ɵɵdefineComponent({ type: GeojsonLayerComponent, selectors: [["geojson-layer"]], inputs: { url: "url", features: "features", sublayers: "sublayers", pointMode: "pointMode", style: "style" }, outputs: { featureSelected: "featureSelected" }, features: [i0.ɵɵNgOnChangesFeature], decls: 0, vars: 0, template: function GeojsonLayerComponent_Template(rf, ctx) { }, styles: [""] });
 /*@__PURE__*/ (function () { i0.ɵsetClassMetadata(GeojsonLayerComponent, [{
         type: core.Component,
         args: [{
@@ -461,11 +488,11 @@ GeojsonLayerComponent.ɵcmp = i0.ɵɵdefineComponent({ type: GeojsonLayerCompone
             type: core.Input
         }], features: [{
             type: core.Input
-        }], styles: [{
-            type: core.Input
         }], sublayers: [{
             type: core.Input
         }], pointMode: [{
+            type: core.Input
+        }], style: [{
             type: core.Input
         }], featureSelected: [{
             type: core.Output
