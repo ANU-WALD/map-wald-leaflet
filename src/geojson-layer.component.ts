@@ -4,6 +4,8 @@ import 'leaflet.vectorgrid';
 import { LeafletService } from './leaflet.service';
 import { TiledSublayerDescriptor } from './data';
 import { HttpClient } from '@angular/common/http';
+import { ScaledStyle, StyleValue } from 'map-wald';
+import { Feature } from 'geojson';
 
 const STYLES = {
   fillOpacity: 0.0,
@@ -23,10 +25,10 @@ export enum PointMode {
 export class GeojsonLayerComponent implements OnInit, OnChanges, OnDestroy {
   @Input() url: string;
   @Input() features: any;
-  @Input() styles: any;
+  // @Input() styles: any;
   @Input() sublayers: TiledSublayerDescriptor[] = [];
   @Input() pointMode:PointMode = PointMode.default;
-
+  @Input() style: {[key:string]:StyleValue} = {};
   // @Input() idColumn = 'id';
   @Output() featureSelected = new EventEmitter<any>();
 
@@ -82,14 +84,35 @@ export class GeojsonLayerComponent implements OnInit, OnChanges, OnDestroy {
         return;
       }
 
+      const style = (f: any)=>{
+        const styles: {[key:string]:any} = Object.assign({},STYLES);
+        Object.keys(this.style).forEach(k=>{
+          const val = this.style[k];
+          if((val as ScaledStyle<any>).getStyleValue) {
+            styles[k] = (val as ScaledStyle<any>).getStyleValue(f);
+          } else {
+            styles[k] = val;
+          }
+        });
+        return styles;
+      };
+
       const options:L.GeoJSONOptions = {
         // interactive: true
-        style: STYLES
+        style: style
       };
 
       if(this.pointMode===PointMode.circle){
         options.pointToLayer = (feature, latlng) => {
-          return L.circleMarker(latlng);
+          let radius = 3;
+          if(this.style && this.style.radius) {
+            if((this.style.radius as ScaledStyle<number>).getStyleValue){
+              radius = (this.style.radius as ScaledStyle<number>).getStyleValue(feature);
+            } else {
+              radius = this.style.radius as number;
+            }
+          }
+          return L.circleMarker(latlng,{radius:radius});
         };
       }
 
