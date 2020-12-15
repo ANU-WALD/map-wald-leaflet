@@ -57,8 +57,14 @@ declare var Plotly: any;
 </div>
 `,styles: [
   `
+  .date-control.container-fluid {
+    padding-left: 0px;
+    padding-right: 0px;
+  }
+
   .ds-btn {
     min-width:10px;
+    padding: 5px;
   }
   `
 ]})
