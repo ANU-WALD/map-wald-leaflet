@@ -410,9 +410,6 @@ var GeojsonLayerComponent = /** @class */ (function () {
         else if (changes.features || changes.pointMode) {
             this.makeLayer();
         }
-        if (changes.style) {
-            console.log(this.style);
-        }
     };
     GeojsonLayerComponent.prototype.downloadLayer = function (url) {
         var _this = this;
@@ -1434,7 +1431,7 @@ var DateSelectionComponent = /** @class */ (function () {
             i0.ɵɵproperty("ngIf", ctx.style !== "arrows");
             i0.ɵɵadvance(1);
             i0.ɵɵproperty("ngIf", ctx.style === "arrows");
-        } }, directives: [common.NgIf, ngBootstrap.NgbInputDatepicker, forms.DefaultValueAccessor, forms.NgControlStatus, forms.NgModel, dateElement_component.DateElementComponent], styles: [".ds-btn[_ngcontent-%COMP%] {\n    min-width:10px;\n  }"] });
+        } }, directives: [common.NgIf, ngBootstrap.NgbInputDatepicker, forms.DefaultValueAccessor, forms.NgControlStatus, forms.NgModel, dateElement_component.DateElementComponent], styles: [".date-control.container-fluid[_ngcontent-%COMP%] {\n    padding-left: 0px;\n    padding-right: 0px;\n  }\n\n  .ds-btn[_ngcontent-%COMP%] {\n    min-width:10px;\n    padding: 5px;\n  }"] });
     return DateSelectionComponent;
 }());
 exports.DateSelectionComponent = DateSelectionComponent;
@@ -1443,7 +1440,7 @@ exports.DateSelectionComponent = DateSelectionComponent;
         args: [{
                 selector: 'date-selection',
                 template: "<div class=\"date-control container-fluid\">\n  <div *ngIf=\"style!=='arrows'\" class=\"row no-gutters\">\n    <div class=\"col-12 form-group-inline\">\n        <div class=\"input-group input-group-sm\">\n          <div *ngIf=\"step\" class=\"ds-btn input-group-addon\" (click)=\"move(-stepDays)\">\n            <i class=\"fa fa-angle-left\"></i>\n          </div>\n          <input class=\"form-control form-control-sm\"\n                 placeholder=\"yyyy-mm-dd\"\n                 name=\"dp\"\n                 [(ngModel)]=\"dateStruct\"\n                 (ngModelChange)=\"dateStructChanged()\"\n                 ngbDatepicker\n                 #d=\"ngbDatepicker\"\n                 [maxDate]=\"maxDateStruct\"\n                 [minDate]=\"minDateStruct\"\n                 [disabled]=\"disabled\">\n          <div class=\"ds-btn input-group-addon\" (click)=\"disabled||d.toggle()\" >\n            <i class=\"fa fa-calendar\"></i>\n          </div>\n          <div *ngIf=\"step\" class=\"ds-btn input-group-addon\" (click)=\"move(stepDays)\">\n            <i class=\"fa fa-angle-right\"></i>\n          </div>\n        </div>\n      </div>\n\n    <!--\n      <div class=\"col-2\" >\n        <button class=\"btn btn-secondary btn-sm\" [disabled]=\"atMax\"\n                (click)=\"move(1)\"><i class=\"fa fa-chevron-right\"></i></button>\n      </div>\n    -->\n  </div>\n\n  <div *ngIf=\"style==='arrows'\">\n    <date-element *ngIf=\"need.day\"   [src]=\"dateStruct\" [property]=\"'day'\" [label]=\"'Day'\"\n                  [step]=\"stepDays\"\n                  (changed)=\"dateStructChanged()\"\n                  [disabled]=\"disabled\"></date-element>\n    <date-element *ngIf=\"need.month\" [src]=\"dateStruct\" [property]=\"'month'\" [label]=\"'Month'\"\n                  (changed)=\"dateStructChanged()\"\n                  [disabled]=\"disabled\"></date-element>\n    <date-element *ngIf=\"need.year\"  [src]=\"dateStruct\" [property]=\"'year'\" [label]=\"'Year'\"\n                  (changed)=\"dateStructChanged()\"\n                  [disabled]=\"disabled\"></date-element>\n  </div>\n</div>\n", styles: [
-                    "\n  .ds-btn {\n    min-width:10px;\n  }\n  "
+                    "\n  .date-control.container-fluid {\n    padding-left: 0px;\n    padding-right: 0px;\n  }\n\n  .ds-btn {\n    min-width:10px;\n    padding: 5px;\n  }\n  "
                 ]
             }]
     }], function () { return [{ type: i1.TimeUtilsService }]; }, { date: [{

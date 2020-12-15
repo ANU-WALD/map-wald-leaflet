@@ -407,9 +407,6 @@ class GeojsonLayerComponent {
         else if (changes.features || changes.pointMode) {
             this.makeLayer();
         }
-        if (changes.style) {
-            console.log(this.style);
-        }
     }
     downloadLayer(url) {
         this.http.get(this.url).subscribe((data) => {
@@ -1500,7 +1497,7 @@ DateSelectionComponent.ɵcmp = i0.ɵɵdefineComponent({ type: DateSelectionCompo
         i0.ɵɵproperty("ngIf", ctx.style !== "arrows");
         i0.ɵɵadvance(1);
         i0.ɵɵproperty("ngIf", ctx.style === "arrows");
-    } }, directives: [common.NgIf, ngBootstrap.NgbInputDatepicker, forms.DefaultValueAccessor, forms.NgControlStatus, forms.NgModel, dateElement_component.DateElementComponent], styles: [".ds-btn[_ngcontent-%COMP%] {\n    min-width:10px;\n  }"] });
+    } }, directives: [common.NgIf, ngBootstrap.NgbInputDatepicker, forms.DefaultValueAccessor, forms.NgControlStatus, forms.NgModel, dateElement_component.DateElementComponent], styles: [".date-control.container-fluid[_ngcontent-%COMP%] {\n    padding-left: 0px;\n    padding-right: 0px;\n  }\n\n  .ds-btn[_ngcontent-%COMP%] {\n    min-width:10px;\n    padding: 5px;\n  }"] });
 /*@__PURE__*/ (function () { i0.ɵsetClassMetadata(DateSelectionComponent, [{
         type: core.Component,
         args: [{
@@ -1554,8 +1551,14 @@ DateSelectionComponent.ɵcmp = i0.ɵɵdefineComponent({ type: DateSelectionCompo
 </div>
 `, styles: [
                     `
+  .date-control.container-fluid {
+    padding-left: 0px;
+    padding-right: 0px;
+  }
+
   .ds-btn {
     min-width:10px;
+    padding: 5px;
   }
   `
                 ]
