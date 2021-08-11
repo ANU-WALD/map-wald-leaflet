@@ -186,8 +186,7 @@ var LeafletMapComponent = /** @class */ (function () {
                 scrollWheelZoom: true,
                 layers: baseLayerArray,
                 continuousWorld: false,
-                noWrap: true
-                // attributionControl: this.attribution
+                noWrap: true,
             });
             _this.svc.mapCreated(_this.map);
             // if(!this.pannable){
@@ -738,9 +737,10 @@ var MapControlComponent = /** @class */ (function () {
         if (TAG_WHITE_LIST.indexOf(ev.target.tagName) >= 0) {
             ev.stopPropagation();
         }
-        this.enableMapEvents();
+        this.enableMapEvents(null);
     };
-    MapControlComponent.prototype.disableMapEvents = function () {
+    MapControlComponent.prototype.disableMapEvents = function (event) {
+        this.m(event);
         if (this.touchDevice) {
             return;
         }
@@ -749,7 +749,10 @@ var MapControlComponent = /** @class */ (function () {
             m.scrollWheelZoom.disable();
         });
     };
-    MapControlComponent.prototype.enableMapEvents = function () {
+    MapControlComponent.prototype.enableMapEvents = function (event) {
+        if (event) {
+            this.m(event);
+        }
         this._map.map.then(function (m) {
             var options = {
                 pan: true,
@@ -763,16 +766,19 @@ var MapControlComponent = /** @class */ (function () {
             }
         });
     };
+    MapControlComponent.prototype.m = function (event) {
+        event.stopPropagation();
+    };
     MapControlComponent.ɵfac = function MapControlComponent_Factory(t) { return new (t || MapControlComponent)(i0.ɵɵdirectiveInject(i0.ElementRef), i0.ɵɵdirectiveInject(i1.LeafletService)); };
     MapControlComponent.ɵcmp = i0.ɵɵdefineComponent({ type: MapControlComponent, selectors: [["map-control"]], viewQuery: function MapControlComponent_Query(rf, ctx) { if (rf & 1) {
             i0.ɵɵviewQuery(_c0, true);
         } if (rf & 2) {
             var _t = void 0;
             i0.ɵɵqueryRefresh(_t = i0.ɵɵloadQuery()) && (ctx.mapControl = _t.first);
-        } }, inputs: { position: "position" }, ngContentSelectors: _c1, decls: 3, vars: 0, consts: [[1, "map-control-content", 3, "touchstart", "mouseenter", "mouseleave"], ["mapControl", ""]], template: function MapControlComponent_Template(rf, ctx) { if (rf & 1) {
+        } }, inputs: { position: "position" }, ngContentSelectors: _c1, decls: 3, vars: 0, consts: [[1, "map-control-content", 3, "touchstart", "mouseenter", "mouseleave", "click", "dblclick", "mousemove", "mousedown", "mouseup"], ["mapControl", ""]], template: function MapControlComponent_Template(rf, ctx) { if (rf & 1) {
             i0.ɵɵprojectionDef();
             i0.ɵɵelementStart(0, "div", 0, 1);
-            i0.ɵɵlistener("touchstart", function MapControlComponent_Template_div_touchstart_0_listener($event) { return ctx.ontouchstart($event); })("mouseenter", function MapControlComponent_Template_div_mouseenter_0_listener() { return ctx.disableMapEvents(); })("mouseleave", function MapControlComponent_Template_div_mouseleave_0_listener() { return ctx.enableMapEvents(); });
+            i0.ɵɵlistener("touchstart", function MapControlComponent_Template_div_touchstart_0_listener($event) { return ctx.ontouchstart($event); })("mouseenter", function MapControlComponent_Template_div_mouseenter_0_listener($event) { return ctx.disableMapEvents($event); })("mouseleave", function MapControlComponent_Template_div_mouseleave_0_listener($event) { return ctx.enableMapEvents($event); })("click", function MapControlComponent_Template_div_click_0_listener($event) { return ctx.m($event); })("dblclick", function MapControlComponent_Template_div_dblclick_0_listener($event) { return ctx.m($event); })("mousemove", function MapControlComponent_Template_div_mousemove_0_listener($event) { return ctx.m($event); })("mousedown", function MapControlComponent_Template_div_mousedown_0_listener($event) { return ctx.m($event); })("mouseup", function MapControlComponent_Template_div_mouseup_0_listener($event) { return ctx.m($event); });
             i0.ɵɵprojection(2);
             i0.ɵɵelementEnd();
         } }, styles: [".map-control-content[_ngcontent-%COMP%]{\n  background: transparent;\n}"] });
@@ -783,7 +789,7 @@ exports.MapControlComponent = MapControlComponent;
         type: core.Component,
         args: [{
                 selector: 'map-control',
-                template: "<div #mapControl class=\"map-control-content\"\n                  (touchstart)=\"ontouchstart($event)\"\n                  (mouseenter)=\"disableMapEvents()\"\n                  (mouseleave)=\"enableMapEvents()\">\n  <ng-content></ng-content>\n</div>\n", styles: [".map-control-content{\n  background: transparent;\n}\n"],
+                template: "<div #mapControl class=\"map-control-content\"\n                  (touchstart)=\"ontouchstart($event)\"\n                  (mouseenter)=\"disableMapEvents($event)\"\n                  (mouseleave)=\"enableMapEvents($event)\"\n                  (click)=\"m($event)\"\n                  (dblclick)=\"m($event)\"\n                  (mousemove)=\"m($event)\"\n                  (mousedown)=\"m($event)\"\n                  (mouseup)=\"m($event)\">\n  <ng-content></ng-content>\n</div>\n", styles: [".map-control-content{\n  background: transparent;\n}\n"],
             }]
     }], function () { return [{ type: i0.ElementRef }, { type: i1.LeafletService }]; }, { mapControl: [{
             type: core.ViewChild,
@@ -1135,6 +1141,7 @@ var WmsLayerComponent = /** @class */ (function () {
             }
             var params = Object.assign({}, DEFAULT_WMS_PARAMS, _this.params);
             _this.layer = leaflet.tileLayer.wms(_this.url, params);
+            // this.layer.options.noWrap = true;
             _this.layer.addTo(m);
         });
     };

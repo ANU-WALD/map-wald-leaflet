@@ -11,8 +11,9 @@ export declare class MapControlComponent implements OnInit, AfterViewInit {
     ngOnInit(): void;
     ngAfterViewInit(): void;
     ontouchstart(ev: TouchEvent): void;
-    disableMapEvents(): void;
-    enableMapEvents(): void;
+    disableMapEvents(event: MouseEvent): void;
+    enableMapEvents(event: MouseEvent): void;
+    m(event: MouseEvent): void;
     static ɵfac: i0.ɵɵFactoryDef<MapControlComponent, never>;
     static ɵcmp: i0.ɵɵComponentDefWithMeta<MapControlComponent, "map-control", never, { "position": "position"; }, {}, never, ["*"]>;
 }
