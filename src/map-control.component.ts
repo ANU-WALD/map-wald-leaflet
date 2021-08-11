@@ -15,8 +15,13 @@ const TAG_WHITE_LIST = ['INPUT', 'SELECT', 'OPTION'];
   selector: 'map-control',
   template: `<div #mapControl class="map-control-content"
                   (touchstart)="ontouchstart($event)"
-                  (mouseenter)="disableMapEvents()"
-                  (mouseleave)="enableMapEvents()">
+                  (mouseenter)="disableMapEvents($event)"
+                  (mouseleave)="enableMapEvents($event)"
+                  (click)="m($event)"
+                  (dblclick)="m($event)"
+                  (mousemove)="m($event)"
+                  (mousedown)="m($event)"
+                  (mouseup)="m($event)">
   <ng-content></ng-content>
 </div>
 `, styles: [`.map-control-content{
@@ -75,10 +80,12 @@ export class MapControlComponent implements OnInit, AfterViewInit {
     if(TAG_WHITE_LIST.indexOf((ev.target as any).tagName)>=0){
       ev.stopPropagation();
     }
-    this.enableMapEvents();
+    this.enableMapEvents(null);
   }
 
-  disableMapEvents(): void {
+  disableMapEvents(event:MouseEvent): void {
+    this.m(event);
+
     if(this.touchDevice){
       return;
     }
@@ -89,7 +96,11 @@ export class MapControlComponent implements OnInit, AfterViewInit {
     });
   }
 
-  enableMapEvents(): void {
+  enableMapEvents(event:MouseEvent): void {
+    if(event){
+      this.m(event);
+    }
+
     this._map.map.then(m=>{
       const options = {
         pan:true,
@@ -104,6 +115,10 @@ export class MapControlComponent implements OnInit, AfterViewInit {
         m.scrollWheelZoom.enable();
       }
     });
+  }
+
+  m(event:MouseEvent){
+    event.stopPropagation();
   }
 
 }
