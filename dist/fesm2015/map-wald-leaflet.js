@@ -543,15 +543,17 @@ function LegendComponent_div_7_div_2_Template(rf, ctx) { if (rf & 1) {
     const colour_r9 = ctx.$implicit;
     const i_r10 = ctx.index;
     const ctx_r8 = i0.ɵɵnextContext(2);
-    i0.ɵɵadvance(2);
-    i0.ɵɵproperty("ngStyle", i0.ɵɵpureFunction1(2, _c0, colour_r9));
+    i0.ɵɵadvance(1);
+    i0.ɵɵproperty("ngClass", ctx_r8.markerClasses[i_r10] || ctx_r8.markerClasses[0] || "");
+    i0.ɵɵadvance(1);
+    i0.ɵɵproperty("ngStyle", i0.ɵɵpureFunction1(3, _c0, colour_r9));
     i0.ɵɵadvance(2);
     i0.ɵɵproperty("innerHTML", ctx_r8.labels[i_r10], i0.ɵɵsanitizeHtml);
 } }
 function LegendComponent_div_7_Template(rf, ctx) { if (rf & 1) {
     i0.ɵɵelementStart(0, "div");
     i0.ɵɵelementStart(1, "div", 9);
-    i0.ɵɵtemplate(2, LegendComponent_div_7_div_2_Template, 5, 4, "div", 10);
+    i0.ɵɵtemplate(2, LegendComponent_div_7_div_2_Template, 5, 5, "div", 10);
     i0.ɵɵelementEnd();
     i0.ɵɵelementEnd();
 } if (rf & 2) {
@@ -595,6 +597,7 @@ class LegendComponent {
     constructor() {
         this.colours = ['red', 'white', 'blue'];
         this.labels = [];
+        this.markerClasses = [];
         this.title = 'the title';
         this.mapUnits = '';
         this.tooltipPlacement = 'right';
@@ -605,7 +608,7 @@ class LegendComponent {
 }
 exports.LegendComponent = LegendComponent;
 LegendComponent.ɵfac = function LegendComponent_Factory(t) { return new (t || LegendComponent)(); };
-LegendComponent.ɵcmp = i0.ɵɵdefineComponent({ type: LegendComponent, selectors: [["legend"]], inputs: { colours: "colours", labels: "labels", imageURL: "imageURL", title: "title", mapUnits: "mapUnits", helpText: "helpText", tooltipPlacement: "tooltipPlacement", attribution: "attribution", attributionLink: "attributionLink" }, decls: 11, vars: 7, consts: [[1, "map-legend", "panel", "panel-group"], ["tooltipContent", ""], [3, "innerHTML", 4, "ngIf"], ["container", "body", 3, "ngbTooltip", "placement", 4, "ngIf"], [4, "ngIf"], [3, "innerHtml"], [3, "innerHTML"], ["container", "body", 3, "ngbTooltip", "placement"], [1, "fa", "fa-info-circle"], [2, "display", "table", "line-height", "15px"], ["style", "display:table-row;padding:0;", 4, "ngFor", "ngForOf"], [2, "display", "table-row", "padding", "0"], [1, "legend-colour"], [1, "legend-entry", 3, "ngStyle"], [1, "legend-label"], [3, "src"], [3, "href"]], template: function LegendComponent_Template(rf, ctx) { if (rf & 1) {
+LegendComponent.ɵcmp = i0.ɵɵdefineComponent({ type: LegendComponent, selectors: [["legend"]], inputs: { colours: "colours", labels: "labels", markerClasses: "markerClasses", imageURL: "imageURL", title: "title", mapUnits: "mapUnits", helpText: "helpText", tooltipPlacement: "tooltipPlacement", attribution: "attribution", attributionLink: "attributionLink" }, decls: 11, vars: 7, consts: [[1, "map-legend", "panel", "panel-group"], ["tooltipContent", ""], [3, "innerHTML", 4, "ngIf"], ["container", "body", 3, "ngbTooltip", "placement", 4, "ngIf"], [4, "ngIf"], [3, "innerHtml"], [3, "innerHTML"], ["container", "body", 3, "ngbTooltip", "placement"], [1, "fa", "fa-info-circle"], [2, "display", "table", "line-height", "15px"], ["style", "display:table-row;padding:0;", 4, "ngFor", "ngForOf"], [2, "display", "table-row", "padding", "0"], [1, "legend-colour", 3, "ngClass"], [1, "legend-entry", 3, "ngStyle"], [1, "legend-label"], [3, "src"], [3, "href"]], template: function LegendComponent_Template(rf, ctx) { if (rf & 1) {
         i0.ɵɵelementStart(0, "div", 0);
         i0.ɵɵtemplate(1, LegendComponent_ng_template_1_Template, 1, 1, "ng-template", null, 1, i0.ɵɵtemplateRefExtractor);
         i0.ɵɵelementStart(3, "strong");
@@ -633,7 +636,7 @@ LegendComponent.ɵcmp = i0.ɵɵdefineComponent({ type: LegendComponent, selector
         i0.ɵɵproperty("ngIf", ctx.attributionLink);
         i0.ɵɵadvance(1);
         i0.ɵɵproperty("ngIf", ctx.attribution && !ctx.attributionLink);
-    } }, directives: [common.NgIf, ngBootstrap.NgbTooltip, common.NgForOf, common.NgStyle], styles: [".map-legend[_ngcontent-%COMP%]{\n  display:block;\n  background: white;\n}\n\n.legend-colour[_ngcontent-%COMP%]{\n  display:table-cell;\n  padding:0px;\n}\n\n.legend-label[_ngcontent-%COMP%]{\n  display:table-cell;\n  padding:0px 4px 2px 2px;\n  font-size:10px;\n  vertical-align:middle;\n}\n\n.legend-entry[_ngcontent-%COMP%] {\n  float: left;\n  width: 15px !important;\n  height: 15px !important;\n}"] });
+    } }, directives: [common.NgIf, ngBootstrap.NgbTooltip, common.NgForOf, common.NgClass, common.NgStyle], styles: [".map-legend[_ngcontent-%COMP%]{\n  display:block;\n  background: white;\n}\n\n.legend-colour[_ngcontent-%COMP%]{\n  display:table-cell;\n  padding:0px;\n}\n\n.legend-label[_ngcontent-%COMP%]{\n  display:table-cell;\n  padding:0px 4px 2px 2px;\n  font-size:10px;\n  vertical-align:middle;\n}\n\n.legend-entry[_ngcontent-%COMP%] {\n  float: left;\n  width: 15px !important;\n  height: 15px !important;\n}\n\n.legend-colour.circle[_ngcontent-%COMP%]   i.legend-entry[_ngcontent-%COMP%] {\n  border-radius:7px;\n}"] });
 /*@__PURE__*/ (function () { i0.ɵsetClassMetadata(LegendComponent, [{
         type: core.Component,
         args: [{
@@ -655,7 +658,7 @@ LegendComponent.ɵcmp = i0.ɵɵdefineComponent({ type: LegendComponent, selector
     <div style="display:table;line-height:15px">
       <div style="display:table-row;padding:0;"
           *ngFor="let colour of colours; let i=index">
-        <div class="legend-colour">
+        <div class="legend-colour" [ngClass]="markerClasses[i]||markerClasses[0]||''">
           <i class="legend-entry" [ngStyle]="{background:colour}"></i>
         </div>
         <div class="legend-label">
@@ -694,11 +697,17 @@ LegendComponent.ɵcmp = i0.ɵɵdefineComponent({ type: LegendComponent, selector
   width: 15px !important;
   height: 15px !important;
 }
+
+.legend-colour.circle i.legend-entry {
+  border-radius:7px;
+}
 `]
             }]
     }], function () { return []; }, { colours: [{
             type: core.Input
         }], labels: [{
+            type: core.Input
+        }], markerClasses: [{
             type: core.Input
         }], imageURL: [{
             type: core.Input
