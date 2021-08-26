@@ -19,7 +19,7 @@ import { Component, OnInit, Input } from '@angular/core';
     <div style="display:table;line-height:15px">
       <div style="display:table-row;padding:0;"
           *ngFor="let colour of colours; let i=index">
-        <div class="legend-colour">
+        <div class="legend-colour" [ngClass]="markerClasses[i]||markerClasses[0]||''">
           <i class="legend-entry" [ngStyle]="{background:colour}"></i>
         </div>
         <div class="legend-label">
@@ -58,12 +58,16 @@ import { Component, OnInit, Input } from '@angular/core';
   width: 15px !important;
   height: 15px !important;
 }
+
+.legend-colour.circle i.legend-entry {
+  border-radius:7px;
+}
 `]
 })
 export class LegendComponent implements OnInit {
   @Input() colours: Array<string> = ['red', 'white', 'blue'];
   @Input() labels: Array<string> = [];
-
+  @Input() markerClasses: string[] = [];
   @Input() imageURL: string
   @Input() title = 'the title';
   @Input() mapUnits = '';
