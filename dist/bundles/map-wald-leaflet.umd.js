@@ -1019,9 +1019,14 @@
             this.map = map;
             this.sublayers = [];
             this.featureSelected = new core.EventEmitter();
+            this.minZoom = 0;
+            this.maxZoom = 30;
+            this.minNativeZoom = 11;
+            this.maxNativeZoom = 13;
             this.destroyed = false;
         }
         VectorTileLayerComponent.prototype.ngOnInit = function () {
+            console.log(this);
         };
         VectorTileLayerComponent.prototype.ngOnDestroy = function () {
             var _this = this;
@@ -1048,10 +1053,12 @@
                     return;
                 }
                 _this.vectorLayer = L.vectorGrid.protobuf(_this.url, {
-                    minZoom: 11,
+                    minZoom: _this.minZoom,
+                    maxZoom: _this.maxZoom,
+                    minNativeZoom: _this.minNativeZoom,
+                    maxNativeZoom: _this.maxNativeZoom,
                     interactive: true,
                     vectorTileLayerStyles: _this.styles,
-                    maxNativeZoom: 13,
                     getFeatureId: function (f) { return _this.getFeatureId(f); }
                 });
                 _this.vectorLayer.on('click', function (event) {
@@ -1094,7 +1101,7 @@
             };
         };
         VectorTileLayerComponent.ɵfac = function VectorTileLayerComponent_Factory(t) { return new (t || VectorTileLayerComponent)(i0.ɵɵdirectiveInject(i1.LeafletService)); };
-        VectorTileLayerComponent.ɵcmp = i0.ɵɵdefineComponent({ type: VectorTileLayerComponent, selectors: [["vector-tile-layer"]], inputs: { url: "url", styles: "styles", sublayers: "sublayers" }, outputs: { featureSelected: "featureSelected" }, features: [i0.ɵɵNgOnChangesFeature], decls: 0, vars: 0, template: function VectorTileLayerComponent_Template(rf, ctx) { }, encapsulation: 2 });
+        VectorTileLayerComponent.ɵcmp = i0.ɵɵdefineComponent({ type: VectorTileLayerComponent, selectors: [["vector-tile-layer"]], inputs: { url: "url", styles: "styles", sublayers: "sublayers", minZoom: "minZoom", maxZoom: "maxZoom", minNativeZoom: "minNativeZoom", maxNativeZoom: "maxNativeZoom" }, outputs: { featureSelected: "featureSelected" }, features: [i0.ɵɵNgOnChangesFeature], decls: 0, vars: 0, template: function VectorTileLayerComponent_Template(rf, ctx) { }, encapsulation: 2 });
         return VectorTileLayerComponent;
     }());
     exports.VectorTileLayerComponent = VectorTileLayerComponent;
@@ -1113,6 +1120,14 @@
                 type: core.Input
             }], featureSelected: [{
                 type: core.Output
+            }], minZoom: [{
+                type: core.Input
+            }], maxZoom: [{
+                type: core.Input
+            }], minNativeZoom: [{
+                type: core.Input
+            }], maxNativeZoom: [{
+                type: core.Input
             }] }); })();
 
     });

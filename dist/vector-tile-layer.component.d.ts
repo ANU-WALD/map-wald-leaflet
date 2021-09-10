@@ -8,6 +8,10 @@ export declare class VectorTileLayerComponent implements OnInit, OnChanges, OnDe
     styles: any;
     sublayers: TiledSublayerDescriptor[];
     featureSelected: EventEmitter<any>;
+    minZoom: number;
+    maxZoom: number;
+    minNativeZoom: number;
+    maxNativeZoom: number;
     private destroyed;
     private selectedFeature;
     private vectorLayer;
@@ -19,5 +23,5 @@ export declare class VectorTileLayerComponent implements OnInit, OnChanges, OnDe
     ngOnChanges(changes: SimpleChanges): void;
     vectorGridFeatureToGeoJSON(lyr: any): any;
     static ɵfac: i0.ɵɵFactoryDef<VectorTileLayerComponent, never>;
-    static ɵcmp: i0.ɵɵComponentDefWithMeta<VectorTileLayerComponent, "vector-tile-layer", never, { "url": "url"; "styles": "styles"; "sublayers": "sublayers"; }, { "featureSelected": "featureSelected"; }, never, never>;
+    static ɵcmp: i0.ɵɵComponentDefWithMeta<VectorTileLayerComponent, "vector-tile-layer", never, { "url": "url"; "styles": "styles"; "sublayers": "sublayers"; "minZoom": "minZoom"; "maxZoom": "maxZoom"; "minNativeZoom": "minNativeZoom"; "maxNativeZoom": "maxNativeZoom"; }, { "featureSelected": "featureSelected"; }, never, never>;
 }

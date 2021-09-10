@@ -1075,9 +1075,14 @@ class VectorTileLayerComponent {
         this.map = map;
         this.sublayers = [];
         this.featureSelected = new core.EventEmitter();
+        this.minZoom = 0;
+        this.maxZoom = 30;
+        this.minNativeZoom = 11;
+        this.maxNativeZoom = 13;
         this.destroyed = false;
     }
     ngOnInit() {
+        console.log(this);
     }
     ngOnDestroy() {
         this.destroyed = true;
@@ -1102,10 +1107,12 @@ class VectorTileLayerComponent {
                 return;
             }
             this.vectorLayer = L.vectorGrid.protobuf(this.url, {
-                minZoom: 11,
+                minZoom: this.minZoom,
+                maxZoom: this.maxZoom,
+                minNativeZoom: this.minNativeZoom,
+                maxNativeZoom: this.maxNativeZoom,
                 interactive: true,
                 vectorTileLayerStyles: this.styles,
-                maxNativeZoom: 13,
                 getFeatureId: (f) => this.getFeatureId(f)
             });
             this.vectorLayer.on('click', (event) => {
@@ -1150,7 +1157,7 @@ class VectorTileLayerComponent {
 }
 exports.VectorTileLayerComponent = VectorTileLayerComponent;
 VectorTileLayerComponent.ɵfac = function VectorTileLayerComponent_Factory(t) { return new (t || VectorTileLayerComponent)(i0.ɵɵdirectiveInject(i1.LeafletService)); };
-VectorTileLayerComponent.ɵcmp = i0.ɵɵdefineComponent({ type: VectorTileLayerComponent, selectors: [["vector-tile-layer"]], inputs: { url: "url", styles: "styles", sublayers: "sublayers" }, outputs: { featureSelected: "featureSelected" }, features: [i0.ɵɵNgOnChangesFeature], decls: 0, vars: 0, template: function VectorTileLayerComponent_Template(rf, ctx) { }, encapsulation: 2 });
+VectorTileLayerComponent.ɵcmp = i0.ɵɵdefineComponent({ type: VectorTileLayerComponent, selectors: [["vector-tile-layer"]], inputs: { url: "url", styles: "styles", sublayers: "sublayers", minZoom: "minZoom", maxZoom: "maxZoom", minNativeZoom: "minNativeZoom", maxNativeZoom: "maxNativeZoom" }, outputs: { featureSelected: "featureSelected" }, features: [i0.ɵɵNgOnChangesFeature], decls: 0, vars: 0, template: function VectorTileLayerComponent_Template(rf, ctx) { }, encapsulation: 2 });
 /*@__PURE__*/ (function () { i0.ɵsetClassMetadata(VectorTileLayerComponent, [{
         type: core.Component,
         args: [{
@@ -1166,6 +1173,14 @@ VectorTileLayerComponent.ɵcmp = i0.ɵɵdefineComponent({ type: VectorTileLayerC
             type: core.Input
         }], featureSelected: [{
             type: core.Output
+        }], minZoom: [{
+            type: core.Input
+        }], maxZoom: [{
+            type: core.Input
+        }], minNativeZoom: [{
+            type: core.Input
+        }], maxNativeZoom: [{
+            type: core.Input
         }] }); })();
 
 });
