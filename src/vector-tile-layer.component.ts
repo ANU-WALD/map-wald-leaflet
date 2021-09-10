@@ -16,6 +16,10 @@ export class VectorTileLayerComponent implements OnInit, OnChanges, OnDestroy {
   @Input() styles: any;
   @Input() sublayers: TiledSublayerDescriptor[] = [];
   @Output() featureSelected = new EventEmitter<any>();
+  @Input() minZoom = 0;
+  @Input() maxZoom = 30;
+  @Input() minNativeZoom = 11;
+  @Input() maxNativeZoom = 13;
 
   private destroyed = false;
   private selectedFeature: any;
@@ -53,10 +57,12 @@ export class VectorTileLayerComponent implements OnInit, OnChanges, OnDestroy {
       }
 
       this.vectorLayer = L.vectorGrid.protobuf(this.url,{
-        minZoom:11,
+        minZoom:this.minZoom,
+        maxZoom:this.maxZoom,
+        minNativeZoom:this.minNativeZoom,
+        maxNativeZoom:this.maxNativeZoom,
         interactive: true,
         vectorTileLayerStyles: this.styles,
-        maxNativeZoom:13,
         getFeatureId: (f:any) => this.getFeatureId(f)
       });
 

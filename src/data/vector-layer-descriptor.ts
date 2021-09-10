@@ -12,6 +12,7 @@ export interface VectorLayerDescriptor {
   availableZooms?: number[];
   source?: string;
   labelField?: string;
+  label?: string;
   keyField?: string;
   displayZooms?: number[];
 }
