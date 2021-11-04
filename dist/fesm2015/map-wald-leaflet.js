@@ -32,6 +32,7 @@ var leaflet_service = createCommonjsModule(function (module, exports) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.LeafletService = void 0;
 
+
 const i0 = core;
 class LeafletService {
     constructor() {
@@ -41,6 +42,7 @@ class LeafletService {
         });
     }
     mapCreated(map) {
+        addControlPlaceholders(map);
         this.resolve(map);
     }
     withMap(fn) {
@@ -53,6 +55,17 @@ LeafletService.ɵprov = i0.ɵɵdefineInjectable({ token: LeafletService, factory
 /*@__PURE__*/ (function () { i0.ɵsetClassMetadata(LeafletService, [{
         type: core.Injectable
     }], function () { return []; }, null); })();
+function addControlPlaceholders(map) {
+    var corners = map._controlCorners, l = 'leaflet-', container = map._controlContainer;
+    function createCorner(vSide, hSide) {
+        var className = l + vSide + ' ' + l + hSide;
+        corners[vSide + hSide] = leaflet.DomUtil.create('div', className, container);
+    }
+    createCorner('middle', 'left');
+    createCorner('middle', 'right');
+    createCorner('top', 'center');
+    createCorner('bottom', 'center');
+}
 
 });
 
@@ -804,6 +817,7 @@ class MapControlComponent {
         this._map.map.then(m => {
             m.dragging.disable();
             m.scrollWheelZoom.disable();
+            m._handlers.forEach(h => h.disable());
         });
     }
     enableMapEvents(event) {
@@ -821,6 +835,7 @@ class MapControlComponent {
             if (options.zoom) {
                 m.scrollWheelZoom.enable();
             }
+            m._handlers.forEach(h => h.disable());
         });
     }
     m(event) {
@@ -1082,7 +1097,6 @@ class VectorTileLayerComponent {
         this.destroyed = false;
     }
     ngOnInit() {
-        console.log(this);
     }
     ngOnDestroy() {
         this.destroyed = true;
@@ -1134,10 +1148,12 @@ class VectorTileLayerComponent {
         const points = parts.map((part) => {
             return part.map(pt => [pt.x, pt.y]);
         });
-        const minx = Math.min(...points[0].map(pt => pt[0]));
-        const maxx = Math.max(...points[0].map(pt => pt[0]));
-        const miny = Math.min(...points[0].map(pt => pt[1]));
-        const maxy = Math.max(...points[0].map(pt => pt[1]));
+        const originalXs = [].concat(...points.map(part => part.map(pt => pt[0])));
+        const minx = Math.min(...originalXs); //points[0].map(pt=>pt[0]));
+        const maxx = Math.max(...originalXs); //points[0].map(pt=>pt[0]));
+        const originalYs = [].concat(...points.map(part => part.map(pt => pt[1])));
+        const miny = Math.min(...originalYs); //points[0].map(pt=>pt[1]));
+        const maxy = Math.max(...originalYs); //points[0].map(pt=>pt[1]));
         function converter(from, to) {
             const fromDelta = from[1] - from[0];
             const toDelta = to[1] - to[0];

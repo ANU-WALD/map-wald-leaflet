@@ -32,6 +32,7 @@ var leaflet_service = createCommonjsModule(function (module, exports) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.LeafletService = void 0;
 
+
 var i0 = core;
 var LeafletService = /** @class */ (function () {
     function LeafletService() {
@@ -42,6 +43,7 @@ var LeafletService = /** @class */ (function () {
         });
     }
     LeafletService.prototype.mapCreated = function (map) {
+        addControlPlaceholders(map);
         this.resolve(map);
     };
     LeafletService.prototype.withMap = function (fn) {
@@ -55,6 +57,17 @@ exports.LeafletService = LeafletService;
 /*@__PURE__*/ (function () { i0.ɵsetClassMetadata(LeafletService, [{
         type: core.Injectable
     }], function () { return []; }, null); })();
+function addControlPlaceholders(map) {
+    var corners = map._controlCorners, l = 'leaflet-', container = map._controlContainer;
+    function createCorner(vSide, hSide) {
+        var className = l + vSide + ' ' + l + hSide;
+        corners[vSide + hSide] = leaflet.DomUtil.create('div', className, container);
+    }
+    createCorner('middle', 'left');
+    createCorner('middle', 'right');
+    createCorner('top', 'center');
+    createCorner('bottom', 'center');
+}
 
 });
 
@@ -752,6 +765,7 @@ var MapControlComponent = /** @class */ (function () {
         this._map.map.then(function (m) {
             m.dragging.disable();
             m.scrollWheelZoom.disable();
+            m._handlers.forEach(function (h) { return h.disable(); });
         });
     };
     MapControlComponent.prototype.enableMapEvents = function (event) {
@@ -769,6 +783,7 @@ var MapControlComponent = /** @class */ (function () {
             if (options.zoom) {
                 m.scrollWheelZoom.enable();
             }
+            m._handlers.forEach(function (h) { return h.disable(); });
         });
     };
     MapControlComponent.prototype.m = function (event) {
@@ -1020,7 +1035,6 @@ var VectorTileLayerComponent = /** @class */ (function () {
         this.destroyed = false;
     }
     VectorTileLayerComponent.prototype.ngOnInit = function () {
-        console.log(this);
     };
     VectorTileLayerComponent.prototype.ngOnDestroy = function () {
         var _this = this;
@@ -1070,14 +1084,17 @@ var VectorTileLayerComponent = /** @class */ (function () {
         });
     };
     VectorTileLayerComponent.prototype.vectorGridFeatureToGeoJSON = function (lyr) {
+        var _a, _b;
         var parts = (lyr._parts[0] && lyr._parts[0][0]) ? lyr._parts : [lyr._parts];
         var points = parts.map(function (part) {
             return part.map(function (pt) { return [pt.x, pt.y]; });
         });
-        var minx = Math.min.apply(Math, __spread(points[0].map(function (pt) { return pt[0]; })));
-        var maxx = Math.max.apply(Math, __spread(points[0].map(function (pt) { return pt[0]; })));
-        var miny = Math.min.apply(Math, __spread(points[0].map(function (pt) { return pt[1]; })));
-        var maxy = Math.max.apply(Math, __spread(points[0].map(function (pt) { return pt[1]; })));
+        var originalXs = (_a = []).concat.apply(_a, __spread(points.map(function (part) { return part.map(function (pt) { return pt[0]; }); })));
+        var minx = Math.min.apply(Math, __spread(originalXs)); //points[0].map(pt=>pt[0]));
+        var maxx = Math.max.apply(Math, __spread(originalXs)); //points[0].map(pt=>pt[0]));
+        var originalYs = (_b = []).concat.apply(_b, __spread(points.map(function (part) { return part.map(function (pt) { return pt[1]; }); })));
+        var miny = Math.min.apply(Math, __spread(originalYs)); //points[0].map(pt=>pt[1]));
+        var maxy = Math.max.apply(Math, __spread(originalYs)); //points[0].map(pt=>pt[1]));
         function converter(from, to) {
             var fromDelta = from[1] - from[0];
             var toDelta = to[1] - to[0];
