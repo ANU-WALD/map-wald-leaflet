@@ -11,6 +11,13 @@ interface SavedMapSettings {
 
 const TAG_WHITE_LIST = ['INPUT', 'SELECT', 'OPTION'];
 
+interface MapWithHandler{
+  _handlers: {
+    enable: ()=>void;
+    disable: ()=>void;
+  }[];
+}
+
 @Component({
   selector: 'map-control',
   template: `<div #mapControl class="map-control-content"
@@ -93,6 +100,8 @@ export class MapControlComponent implements OnInit, AfterViewInit {
     this._map.map.then(m=>{
       m.dragging.disable();
       m.scrollWheelZoom.disable();
+
+      (m as any as MapWithHandler)._handlers.forEach(h=>h.disable());
     });
   }
 
@@ -114,6 +123,8 @@ export class MapControlComponent implements OnInit, AfterViewInit {
       if(options.zoom){
         m.scrollWheelZoom.enable();
       }
+
+      (m as any as MapWithHandler)._handlers.forEach(h=>h.disable());
     });
   }
 
