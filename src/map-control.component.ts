@@ -124,7 +124,7 @@ export class MapControlComponent implements OnInit, AfterViewInit {
         m.scrollWheelZoom.enable();
       }
 
-      (m as any as MapWithHandler)._handlers.forEach(h=>h.disable());
+      (m as any as MapWithHandler)._handlers.forEach(h=>h.enable());
     });
   }
 
