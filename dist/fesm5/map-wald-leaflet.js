@@ -783,7 +783,7 @@ var MapControlComponent = /** @class */ (function () {
             if (options.zoom) {
                 m.scrollWheelZoom.enable();
             }
-            m._handlers.forEach(function (h) { return h.disable(); });
+            m._handlers.forEach(function (h) { return h.enable(); });
         });
     };
     MapControlComponent.prototype.m = function (event) {

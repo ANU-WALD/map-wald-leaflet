@@ -835,7 +835,7 @@ class MapControlComponent {
             if (options.zoom) {
                 m.scrollWheelZoom.enable();
             }
-            m._handlers.forEach(h => h.disable());
+            m._handlers.forEach(h => h.enable());
         });
     }
     m(event) {
