@@ -16,6 +16,7 @@ import { VectorTileLayerComponent } from './vector-tile-layer.component';
 import { WmsLayerComponent } from './wms-layer.component';
 import { DateElementComponent } from './date-element.component';
 import { DateSelectionComponent } from './date-selection.component';
+import { MapCoordinatesComponent } from './map-coordinates.component';
 
 export * from './data';
 export * from './leaflet.service';
@@ -29,6 +30,7 @@ export * from './vector-tile-layer.component';
 export * from './wms-layer.component';
 export * from './date-element.component';
 export * from './date-selection.component';
+export * from './map-coordinates.component';
 
 const components: any[] = [
   //$componentList
@@ -41,7 +43,8 @@ const components: any[] = [
   VectorTileLayerComponent,
   WmsLayerComponent,
   DateElementComponent,
-  DateSelectionComponent
+  DateSelectionComponent,
+  MapCoordinatesComponent
 ];
 
 const services: any[] = [
