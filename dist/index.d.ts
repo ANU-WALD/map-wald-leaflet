@@ -10,11 +10,12 @@ import * as i7 from "./vector-tile-layer.component";
 import * as i8 from "./wms-layer.component";
 import * as i9 from "./date-element.component";
 import * as i10 from "./date-selection.component";
-import * as i11 from "@angular/common";
-import * as i12 from "@angular/forms";
-import * as i13 from "@angular/common/http";
-import * as i14 from "@ng-bootstrap/ng-bootstrap";
-import * as i15 from "map-wald";
+import * as i11 from "./map-coordinates.component";
+import * as i12 from "@angular/common";
+import * as i13 from "@angular/forms";
+import * as i14 from "@angular/common/http";
+import * as i15 from "@ng-bootstrap/ng-bootstrap";
+import * as i16 from "map-wald";
 export * from './data';
 export * from './leaflet.service';
 export * from './leaflet-map.component';
@@ -27,8 +28,9 @@ export * from './vector-tile-layer.component';
 export * from './wms-layer.component';
 export * from './date-element.component';
 export * from './date-selection.component';
+export * from './map-coordinates.component';
 export declare class MapWaldLeafletModule {
     static forRoot(moduleInitialisation: any): ModuleWithProviders<MapWaldLeafletModule>;
-    static ɵmod: i0.ɵɵNgModuleDefWithMeta<MapWaldLeafletModule, [typeof i1.DrawComponent, typeof i2.GeojsonLayerComponent, typeof i3.LeafletMapComponent, typeof i4.LegendComponent, typeof i5.MapControlComponent, typeof i6.OneTimeSplashComponent, typeof i7.VectorTileLayerComponent, typeof i8.WmsLayerComponent, typeof i9.DateElementComponent, typeof i10.DateSelectionComponent], [typeof i11.CommonModule, typeof i12.FormsModule, typeof i13.HttpClientModule, typeof i14.NgbModule, typeof i15.MapWaldCoreModule], [typeof i1.DrawComponent, typeof i2.GeojsonLayerComponent, typeof i3.LeafletMapComponent, typeof i4.LegendComponent, typeof i5.MapControlComponent, typeof i6.OneTimeSplashComponent, typeof i7.VectorTileLayerComponent, typeof i8.WmsLayerComponent, typeof i9.DateElementComponent, typeof i10.DateSelectionComponent]>;
+    static ɵmod: i0.ɵɵNgModuleDefWithMeta<MapWaldLeafletModule, [typeof i1.DrawComponent, typeof i2.GeojsonLayerComponent, typeof i3.LeafletMapComponent, typeof i4.LegendComponent, typeof i5.MapControlComponent, typeof i6.OneTimeSplashComponent, typeof i7.VectorTileLayerComponent, typeof i8.WmsLayerComponent, typeof i9.DateElementComponent, typeof i10.DateSelectionComponent, typeof i11.MapCoordinatesComponent], [typeof i12.CommonModule, typeof i13.FormsModule, typeof i14.HttpClientModule, typeof i15.NgbModule, typeof i16.MapWaldCoreModule], [typeof i1.DrawComponent, typeof i2.GeojsonLayerComponent, typeof i3.LeafletMapComponent, typeof i4.LegendComponent, typeof i5.MapControlComponent, typeof i6.OneTimeSplashComponent, typeof i7.VectorTileLayerComponent, typeof i8.WmsLayerComponent, typeof i9.DateElementComponent, typeof i10.DateSelectionComponent, typeof i11.MapCoordinatesComponent]>;
     static ɵinj: i0.ɵɵInjectorDef<MapWaldLeafletModule>;
 }

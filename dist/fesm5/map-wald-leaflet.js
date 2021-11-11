@@ -200,6 +200,7 @@ var LeafletMapComponent = /** @class */ (function () {
                 layers: baseLayerArray,
                 continuousWorld: false,
                 noWrap: true,
+                tap: false,
             });
             _this.svc.mapCreated(_this.map);
             // if(!this.pannable){
@@ -342,6 +343,7 @@ var DrawComponent = /** @class */ (function () {
         });
     };
     DrawComponent.prototype.initiateDrawing = function (m) {
+        leaflet.Draw.Polygon.prototype._onTouch = leaflet.Util.falseFn;
         this.polygon = new leaflet.Draw.Polygon(m, { repeatMode: false });
         this.polygon.addHooks();
     };
@@ -1514,6 +1516,85 @@ exports.DateSelectionComponent = DateSelectionComponent;
 var dateSelection_component$1 = unwrapExports(dateSelection_component);
 var dateSelection_component_1 = dateSelection_component.DateSelectionComponent;
 
+var mapCoordinates_component = createCommonjsModule(function (module, exports) {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.MapCoordinatesComponent = void 0;
+
+
+var i0 = core;
+var i1 = leaflet_service;
+
+var MapCoordinatesComponent = /** @class */ (function () {
+    function MapCoordinatesComponent(map) {
+        var _this = this;
+        this.map = map;
+        this.withMap(function (m) {
+            var events = [
+                'resize',
+                'zoomend',
+                'moveend',
+                'mousemove'
+            ];
+            events.forEach(function (e) {
+                m.on(e, function (evt) { return _this.mapChange(evt); });
+            });
+            // const mouseEvents = [
+            //   'mousemove'
+            // ];
+            // mouseEvents.forEach(e=>{
+            //   m.on(e,(evt)=>this.mouseEvent(evt));
+            // })
+        });
+    }
+    MapCoordinatesComponent.prototype.ngOnInit = function () {
+    };
+    MapCoordinatesComponent.prototype.withMap = function (fn) {
+        this.map.map.then(fn);
+    };
+    MapCoordinatesComponent.prototype.mapChange = function (evt) {
+        if (evt.type === 'mousemove') {
+            this.mouseCoordinates = evt.latlng;
+            return;
+        }
+        var map = evt.target;
+        this.bounds = map.getBounds();
+        // console.log(evt);
+    };
+    MapCoordinatesComponent.ɵfac = function MapCoordinatesComponent_Factory(t) { return new (t || MapCoordinatesComponent)(i0.ɵɵdirectiveInject(i1.LeafletService)); };
+    MapCoordinatesComponent.ɵcmp = i0.ɵɵdefineComponent({ type: MapCoordinatesComponent, selectors: [["map-coordinates"]], decls: 6, vars: 4, consts: [[2, "background-color", "white"]], template: function MapCoordinatesComponent_Template(rf, ctx) { if (rf & 1) {
+            i0.ɵɵelementStart(0, "div", 0);
+            i0.ɵɵelementStart(1, "p");
+            i0.ɵɵtext(2);
+            i0.ɵɵelementEnd();
+            i0.ɵɵelementStart(3, "p");
+            i0.ɵɵtext(4);
+            i0.ɵɵpipe(5, "json");
+            i0.ɵɵelementEnd();
+            i0.ɵɵelementEnd();
+        } if (rf & 2) {
+            i0.ɵɵadvance(2);
+            i0.ɵɵtextInterpolate1("Cursor: ", ctx.mouseCoordinates, "");
+            i0.ɵɵadvance(2);
+            i0.ɵɵtextInterpolate1("Bounds: ", i0.ɵɵpipeBind1(5, 2, ctx.bounds), "");
+        } }, pipes: [common.JsonPipe], encapsulation: 2 });
+    return MapCoordinatesComponent;
+}());
+exports.MapCoordinatesComponent = MapCoordinatesComponent;
+/*@__PURE__*/ (function () { i0.ɵsetClassMetadata(MapCoordinatesComponent, [{
+        type: core.Component,
+        args: [{
+                selector: 'map-coordinates',
+                template: "\n  <div style=\"background-color:white\">\n    <p>Cursor: {{mouseCoordinates}}</p>\n    <p>Bounds: {{bounds | json}}</p>\n</div>\n",
+                styles: []
+            }]
+    }], function () { return [{ type: i1.LeafletService }]; }, null); })();
+
+});
+
+var mapCoordinates_component$1 = unwrapExports(mapCoordinates_component);
+var mapCoordinates_component_1 = mapCoordinates_component.MapCoordinatesComponent;
+
 var basemapDescriptor = createCommonjsModule(function (module, exports) {
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
@@ -1585,6 +1666,7 @@ exports.MapWaldLeafletModule = void 0;
 
 
 
+
 var i0 = core;
 __exportStar(data, exports);
 __exportStar(leaflet_service, exports);
@@ -1598,6 +1680,7 @@ __exportStar(vectorTileLayer_component, exports);
 __exportStar(wmsLayer_component, exports);
 __exportStar(dateElement_component, exports);
 __exportStar(dateSelection_component, exports);
+__exportStar(mapCoordinates_component, exports);
 var components = [
     //$componentList
     draw_component.DrawComponent,
@@ -1609,7 +1692,8 @@ var components = [
     vectorTileLayer_component.VectorTileLayerComponent,
     wmsLayer_component.WmsLayerComponent,
     dateElement_component.DateElementComponent,
-    dateSelection_component.DateSelectionComponent
+    dateSelection_component.DateSelectionComponent,
+    mapCoordinates_component.MapCoordinatesComponent
 ];
 var services = [
     //$serviceList
@@ -1646,7 +1730,8 @@ exports.MapWaldLeafletModule = MapWaldLeafletModule;
         vectorTileLayer_component.VectorTileLayerComponent,
         wmsLayer_component.WmsLayerComponent,
         dateElement_component.DateElementComponent,
-        dateSelection_component.DateSelectionComponent], imports: [common.CommonModule,
+        dateSelection_component.DateSelectionComponent,
+        mapCoordinates_component.MapCoordinatesComponent], imports: [common.CommonModule,
         forms.FormsModule,
         http.HttpClientModule,
         ngBootstrap.NgbModule,
@@ -1661,7 +1746,8 @@ exports.MapWaldLeafletModule = MapWaldLeafletModule;
         vectorTileLayer_component.VectorTileLayerComponent,
         wmsLayer_component.WmsLayerComponent,
         dateElement_component.DateElementComponent,
-        dateSelection_component.DateSelectionComponent] }); })();
+        dateSelection_component.DateSelectionComponent,
+        mapCoordinates_component.MapCoordinatesComponent] }); })();
 /*@__PURE__*/ (function () { i0.ɵsetClassMetadata(MapWaldLeafletModule, [{
         type: core.NgModule,
         args: [{
