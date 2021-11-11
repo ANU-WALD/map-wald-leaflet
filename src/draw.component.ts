@@ -71,6 +71,7 @@ export class DrawComponent implements OnInit, OnDestroy {
   }
 
   initiateDrawing(m: L.Map): void {
+    (L.Draw.Polygon.prototype as any)._onTouch = L.Util.falseFn;
     this.polygon = new L.Draw.Polygon(m as L.DrawMap, {repeatMode: false});
     this.polygon.addHooks();
   }

@@ -158,7 +158,9 @@ export class LeafletMapComponent implements OnInit, OnChanges {
         scrollWheelZoom: true,
         layers:baseLayerArray,
         continuousWorld: false,
-        noWrap: true
+        noWrap: true,
+        tap: false,
+        // worldCopyJump:true
             // attributionControl: this.attribution
       } as leaflet.MapOptions);
       this.svc.mapCreated(this.map);
