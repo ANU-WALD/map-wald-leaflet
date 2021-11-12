@@ -298,8 +298,20 @@
     var i1 = leaflet_service;
     var DrawComponent = /** @class */ (function () {
         function DrawComponent(map) {
+            var _this = this;
             this.map = map;
             this.featureClosed = new core.EventEmitter();
+            this.keyHandler = function (event) {
+                var key = event.originalEvent.key;
+                if (key === 'Escape') {
+                    _this.drawnItems.clearLayers();
+                    _this.polygon.removeHooks();
+                    _this.map.withMap(function (m) { return _this.initiateDrawing(m); });
+                }
+                else if ((key === 'Delete') || (key === 'Backspace')) {
+                    _this.polygon.deleteLastVertex();
+                }
+            };
         }
         DrawComponent.prototype.ngOnDestroy = function () {
             var _this = this;
@@ -315,6 +327,7 @@
             // m.removeControl(this.drawControl);
             m.off(leaflet.Draw.Event.DRAWSTART);
             m.off(leaflet.Draw.Event.CREATED);
+            m.off('keyup', this.keyHandler);
         };
         DrawComponent.prototype.addControl = function (m) {
             var _this = this;
@@ -347,6 +360,7 @@
                 _this.polygon.removeHooks();
                 _this.initiateDrawing(m);
             });
+            m.on('keyup', this.keyHandler);
         };
         DrawComponent.prototype.initiateDrawing = function (m) {
             leaflet.Draw.Polygon.prototype._onTouch = leaflet.Util.falseFn;

@@ -296,6 +296,17 @@ class DrawComponent {
     constructor(map) {
         this.map = map;
         this.featureClosed = new core.EventEmitter();
+        this.keyHandler = (event) => {
+            const key = event.originalEvent.key;
+            if (key === 'Escape') {
+                this.drawnItems.clearLayers();
+                this.polygon.removeHooks();
+                this.map.withMap(m => this.initiateDrawing(m));
+            }
+            else if ((key === 'Delete') || (key === 'Backspace')) {
+                this.polygon.deleteLastVertex();
+            }
+        };
     }
     ngOnDestroy() {
         this.map.withMap(m => this.removeControl(m));
@@ -309,6 +320,7 @@ class DrawComponent {
         // m.removeControl(this.drawControl);
         m.off(leaflet.Draw.Event.DRAWSTART);
         m.off(leaflet.Draw.Event.CREATED);
+        m.off('keyup', this.keyHandler);
     }
     addControl(m) {
         this.drawnItems = new leaflet.FeatureGroup();
@@ -340,6 +352,7 @@ class DrawComponent {
             this.polygon.removeHooks();
             this.initiateDrawing(m);
         });
+        m.on('keyup', this.keyHandler);
     }
     initiateDrawing(m) {
         leaflet.Draw.Polygon.prototype._onTouch = leaflet.Util.falseFn;

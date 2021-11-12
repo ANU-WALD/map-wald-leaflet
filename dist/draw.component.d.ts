@@ -10,6 +10,7 @@ export declare class DrawComponent implements OnInit, OnDestroy {
     private drawControl;
     private polygon;
     constructor(map: LeafletService);
+    keyHandler: (event: L.LeafletKeyboardEvent) => void;
     ngOnDestroy(): void;
     ngOnInit(): void;
     removeControl(m: L.Map): void;
