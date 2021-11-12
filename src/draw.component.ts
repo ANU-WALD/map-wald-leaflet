@@ -17,6 +17,17 @@ export class DrawComponent implements OnInit, OnDestroy {
 
   constructor(private map: LeafletService) { }
 
+  keyHandler = (event: L.LeafletKeyboardEvent) => {
+    const key = event.originalEvent.key;
+    if (key === 'Escape') {
+      this.drawnItems.clearLayers();
+      this.polygon.removeHooks();
+      this.map.withMap(m=>this.initiateDrawing(m));
+    } else if((key === 'Delete')||(key === 'Backspace') ){
+      this.polygon.deleteLastVertex();
+    }
+  }
+
   ngOnDestroy(): void {
     this.map.withMap(m=>this.removeControl(m))
   }
@@ -31,6 +42,7 @@ export class DrawComponent implements OnInit, OnDestroy {
     // m.removeControl(this.drawControl);
     m.off(L.Draw.Event.DRAWSTART);
     m.off(L.Draw.Event.CREATED);
+    m.off('keyup',this.keyHandler);
   }
 
   addControl(m: L.Map): void {
@@ -68,6 +80,8 @@ export class DrawComponent implements OnInit, OnDestroy {
       this.polygon.removeHooks();
       this.initiateDrawing(m);
     });
+
+    m.on('keyup',this.keyHandler);
   }
 
   initiateDrawing(m: L.Map): void {
