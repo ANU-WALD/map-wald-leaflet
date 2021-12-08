@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, OnChanges, SimpleChanges } from '@angular/core';
-import { LeafletService } from './leaflet.service';
+import { ensurePane, LeafletService } from './leaflet.service';
 import * as L from 'leaflet';
 
 const DEFAULT_WMS_PARAMS = {
@@ -15,6 +15,7 @@ const DEFAULT_WMS_PARAMS = {
 export class WmsLayerComponent implements OnInit, OnChanges {
   @Input() url: string;
   @Input() params: any = {};
+  @Input() zIndex = 10;
   private layer: L.TileLayer;
 
   constructor(private map: LeafletService) { }
@@ -33,8 +34,13 @@ export class WmsLayerComponent implements OnInit, OnChanges {
       }
 
       const params = Object.assign({},DEFAULT_WMS_PARAMS,this.params);
-      this.layer = L.tileLayer.wms(this.url,params as L.WMSOptions);
 
+      const pane = `wms-pane-${this.zIndex}`;
+      ensurePane(m,pane,this.zIndex)
+      params.pane = pane;
+
+      this.layer = L.tileLayer.wms(this.url,params as L.WMSOptions);
+      // this.layer.options.noWrap = true;
       this.layer.addTo(m);
     });
   }

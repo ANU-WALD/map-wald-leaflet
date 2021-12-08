@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, OnChanges, SimpleChanges, Output, EventEmitter, OnDestroy } from '@angular/core';
 import * as L from 'leaflet';
 import 'leaflet.vectorgrid';
-import { LeafletService } from './leaflet.service';
+import { LeafletService, ensurePane } from './leaflet.service';
 import { TiledSublayerDescriptor } from './data';
 import { HttpClient } from '@angular/common/http';
 import { ScaledStyle, StyleValue } from 'map-wald';
@@ -31,6 +31,7 @@ export class GeojsonLayerComponent implements OnInit, OnChanges, OnDestroy {
   @Input() style: {[key:string]:StyleValue} = {};
   // @Input() idColumn = 'id';
   @Output() featureSelected = new EventEmitter<any>();
+  @Input() zIndex = 100;
 
   private destroyed = false;
   private selectedFeature: any;
@@ -116,6 +117,9 @@ export class GeojsonLayerComponent implements OnInit, OnChanges, OnDestroy {
         };
       }
 
+      const pane = `vector-pane-${this.zIndex}`;
+      ensurePane(m,pane,this.zIndex)
+      options.pane = pane;
       this.vectorLayer = L.geoJSON(this.features, options);
 
       this.vectorLayer.on('click' as any, (event) => {

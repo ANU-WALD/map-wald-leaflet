@@ -42,3 +42,10 @@ function addControlPlaceholders(map: any) {
   createCorner('top', 'center');
   createCorner('bottom', 'center');
 }
+
+export function ensurePane(map:any, pane:string, zIndex:number): void {
+  if (!map.getPane(pane)) {
+    map.createPane(pane);
+    map.getPane(pane).style.zIndex = 405 + zIndex;
+  }
+}

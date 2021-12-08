@@ -3,7 +3,7 @@
 import { Component, OnInit, Input, OnChanges, SimpleChanges, Output, EventEmitter, OnDestroy } from '@angular/core';
 import * as leaflet from 'leaflet';
 // import 'leaflet.vectorgrid';
-import { LeafletService } from './leaflet.service';
+import { ensurePane, LeafletService } from './leaflet.service';
 import { TiledSublayerDescriptor } from './data';
 
 @Component({
@@ -20,6 +20,7 @@ export class VectorTileLayerComponent implements OnInit, OnChanges, OnDestroy {
   @Input() maxZoom = 30;
   @Input() minNativeZoom = 11;
   @Input() maxNativeZoom = 13;
+  @Input() zIndex = 100;
 
   private destroyed = false;
   private selectedFeature: any;
@@ -56,7 +57,11 @@ export class VectorTileLayerComponent implements OnInit, OnChanges, OnDestroy {
         return;
       }
 
+      const pane = `vector-pane-${this.zIndex}`;
+      ensurePane(m,pane,this.zIndex)
+
       this.vectorLayer = L.vectorGrid.protobuf(this.url,{
+        pane,
         minZoom:this.minZoom,
         maxZoom:this.maxZoom,
         minNativeZoom:this.minNativeZoom,
