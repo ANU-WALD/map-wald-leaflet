@@ -30,7 +30,7 @@ function getCjsExportFromNamespace (n) {
 var leaflet_service = createCommonjsModule(function (module, exports) {
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.LeafletService = void 0;
+exports.ensurePane = exports.LeafletService = void 0;
 
 
 const i0 = core;
@@ -66,11 +66,19 @@ function addControlPlaceholders(map) {
     createCorner('top', 'center');
     createCorner('bottom', 'center');
 }
+function ensurePane(map, pane, zIndex) {
+    if (!map.getPane(pane)) {
+        map.createPane(pane);
+        map.getPane(pane).style.zIndex = 405 + zIndex;
+    }
+}
+exports.ensurePane = ensurePane;
 
 });
 
 var leaflet_service$1 = unwrapExports(leaflet_service);
-var leaflet_service_1 = leaflet_service.LeafletService;
+var leaflet_service_1 = leaflet_service.ensurePane;
+var leaflet_service_2 = leaflet_service.LeafletService;
 
 var leafletMap_component = createCommonjsModule(function (module, exports) {
 "use strict";
@@ -411,6 +419,7 @@ class GeojsonLayerComponent {
         this.style = {};
         // @Input() idColumn = 'id';
         this.featureSelected = new core.EventEmitter();
+        this.zIndex = 100;
         this.destroyed = false;
     }
     ngOnInit() {
@@ -482,6 +491,9 @@ class GeojsonLayerComponent {
                     return leaflet.circleMarker(latlng, { radius: radius });
                 };
             }
+            const pane = `vector-pane-${this.zIndex}`;
+            leaflet_service.ensurePane(m, pane, this.zIndex);
+            options.pane = pane;
             this.vectorLayer = leaflet.geoJSON(this.features, options);
             this.vectorLayer.on('click', (event) => {
                 if (this.selectedFeature) {
@@ -500,7 +512,7 @@ class GeojsonLayerComponent {
 }
 exports.GeojsonLayerComponent = GeojsonLayerComponent;
 GeojsonLayerComponent.ɵfac = function GeojsonLayerComponent_Factory(t) { return new (t || GeojsonLayerComponent)(i0.ɵɵdirectiveInject(i1.HttpClient), i0.ɵɵdirectiveInject(i2.LeafletService)); };
-GeojsonLayerComponent.ɵcmp = i0.ɵɵdefineComponent({ type: GeojsonLayerComponent, selectors: [["geojson-layer"]], inputs: { url: "url", features: "features", sublayers: "sublayers", pointMode: "pointMode", style: "style" }, outputs: { featureSelected: "featureSelected" }, features: [i0.ɵɵNgOnChangesFeature], decls: 0, vars: 0, template: function GeojsonLayerComponent_Template(rf, ctx) { }, styles: [""] });
+GeojsonLayerComponent.ɵcmp = i0.ɵɵdefineComponent({ type: GeojsonLayerComponent, selectors: [["geojson-layer"]], inputs: { url: "url", features: "features", sublayers: "sublayers", pointMode: "pointMode", style: "style", zIndex: "zIndex" }, outputs: { featureSelected: "featureSelected" }, features: [i0.ɵɵNgOnChangesFeature], decls: 0, vars: 0, template: function GeojsonLayerComponent_Template(rf, ctx) { }, styles: [""] });
 /*@__PURE__*/ (function () { i0.ɵsetClassMetadata(GeojsonLayerComponent, [{
         type: core.Component,
         args: [{
@@ -520,6 +532,8 @@ GeojsonLayerComponent.ɵcmp = i0.ɵɵdefineComponent({ type: GeojsonLayerCompone
             type: core.Input
         }], featureSelected: [{
             type: core.Output
+        }], zIndex: [{
+            type: core.Input
         }] }); })();
 
 });
@@ -1109,6 +1123,7 @@ class VectorTileLayerComponent {
         this.maxZoom = 30;
         this.minNativeZoom = 11;
         this.maxNativeZoom = 13;
+        this.zIndex = 100;
         this.destroyed = false;
     }
     ngOnInit() {
@@ -1135,7 +1150,10 @@ class VectorTileLayerComponent {
             if (this.destroyed) {
                 return;
             }
+            const pane = `vector-pane-${this.zIndex}`;
+            leaflet_service.ensurePane(m, pane, this.zIndex);
             this.vectorLayer = L.vectorGrid.protobuf(this.url, {
+                pane,
                 minZoom: this.minZoom,
                 maxZoom: this.maxZoom,
                 minNativeZoom: this.minNativeZoom,
@@ -1188,7 +1206,7 @@ class VectorTileLayerComponent {
 }
 exports.VectorTileLayerComponent = VectorTileLayerComponent;
 VectorTileLayerComponent.ɵfac = function VectorTileLayerComponent_Factory(t) { return new (t || VectorTileLayerComponent)(i0.ɵɵdirectiveInject(i1.LeafletService)); };
-VectorTileLayerComponent.ɵcmp = i0.ɵɵdefineComponent({ type: VectorTileLayerComponent, selectors: [["vector-tile-layer"]], inputs: { url: "url", styles: "styles", sublayers: "sublayers", minZoom: "minZoom", maxZoom: "maxZoom", minNativeZoom: "minNativeZoom", maxNativeZoom: "maxNativeZoom" }, outputs: { featureSelected: "featureSelected" }, features: [i0.ɵɵNgOnChangesFeature], decls: 0, vars: 0, template: function VectorTileLayerComponent_Template(rf, ctx) { }, encapsulation: 2 });
+VectorTileLayerComponent.ɵcmp = i0.ɵɵdefineComponent({ type: VectorTileLayerComponent, selectors: [["vector-tile-layer"]], inputs: { url: "url", styles: "styles", sublayers: "sublayers", minZoom: "minZoom", maxZoom: "maxZoom", minNativeZoom: "minNativeZoom", maxNativeZoom: "maxNativeZoom", zIndex: "zIndex" }, outputs: { featureSelected: "featureSelected" }, features: [i0.ɵɵNgOnChangesFeature], decls: 0, vars: 0, template: function VectorTileLayerComponent_Template(rf, ctx) { }, encapsulation: 2 });
 /*@__PURE__*/ (function () { i0.ɵsetClassMetadata(VectorTileLayerComponent, [{
         type: core.Component,
         args: [{
@@ -1211,6 +1229,8 @@ VectorTileLayerComponent.ɵcmp = i0.ɵɵdefineComponent({ type: VectorTileLayerC
         }], minNativeZoom: [{
             type: core.Input
         }], maxNativeZoom: [{
+            type: core.Input
+        }], zIndex: [{
             type: core.Input
         }] }); })();
 
@@ -1236,6 +1256,7 @@ class WmsLayerComponent {
     constructor(map) {
         this.map = map;
         this.params = {};
+        this.zIndex = 10;
     }
     ngOnInit() {
     }
@@ -1249,6 +1270,9 @@ class WmsLayerComponent {
                 return;
             }
             const params = Object.assign({}, DEFAULT_WMS_PARAMS, this.params);
+            const pane = `wms-pane-${this.zIndex}`;
+            leaflet_service.ensurePane(m, pane, this.zIndex);
+            params.pane = pane;
             this.layer = leaflet.tileLayer.wms(this.url, params);
             // this.layer.options.noWrap = true;
             this.layer.addTo(m);
@@ -1257,7 +1281,7 @@ class WmsLayerComponent {
 }
 exports.WmsLayerComponent = WmsLayerComponent;
 WmsLayerComponent.ɵfac = function WmsLayerComponent_Factory(t) { return new (t || WmsLayerComponent)(i0.ɵɵdirectiveInject(i1.LeafletService)); };
-WmsLayerComponent.ɵcmp = i0.ɵɵdefineComponent({ type: WmsLayerComponent, selectors: [["wms-layer"]], inputs: { url: "url", params: "params" }, features: [i0.ɵɵNgOnChangesFeature], decls: 0, vars: 0, template: function WmsLayerComponent_Template(rf, ctx) { }, encapsulation: 2 });
+WmsLayerComponent.ɵcmp = i0.ɵɵdefineComponent({ type: WmsLayerComponent, selectors: [["wms-layer"]], inputs: { url: "url", params: "params", zIndex: "zIndex" }, features: [i0.ɵɵNgOnChangesFeature], decls: 0, vars: 0, template: function WmsLayerComponent_Template(rf, ctx) { }, encapsulation: 2 });
 /*@__PURE__*/ (function () { i0.ɵsetClassMetadata(WmsLayerComponent, [{
         type: core.Component,
         args: [{
@@ -1268,6 +1292,8 @@ WmsLayerComponent.ɵcmp = i0.ɵɵdefineComponent({ type: WmsLayerComponent, sele
     }], function () { return [{ type: i1.LeafletService }]; }, { url: [{
             type: core.Input
         }], params: [{
+            type: core.Input
+        }], zIndex: [{
             type: core.Input
         }] }); })();
 

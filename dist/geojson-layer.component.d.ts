@@ -20,6 +20,7 @@ export declare class GeojsonLayerComponent implements OnInit, OnChanges, OnDestr
         [key: string]: StyleValue;
     };
     featureSelected: EventEmitter<any>;
+    zIndex: number;
     private destroyed;
     private selectedFeature;
     private vectorLayer;
@@ -31,5 +32,5 @@ export declare class GeojsonLayerComponent implements OnInit, OnChanges, OnDestr
     downloadLayer(url: string): void;
     makeLayer(): void;
     static ɵfac: i0.ɵɵFactoryDef<GeojsonLayerComponent, never>;
-    static ɵcmp: i0.ɵɵComponentDefWithMeta<GeojsonLayerComponent, "geojson-layer", never, { "url": "url"; "features": "features"; "sublayers": "sublayers"; "pointMode": "pointMode"; "style": "style"; }, { "featureSelected": "featureSelected"; }, never, never>;
+    static ɵcmp: i0.ɵɵComponentDefWithMeta<GeojsonLayerComponent, "geojson-layer", never, { "url": "url"; "features": "features"; "sublayers": "sublayers"; "pointMode": "pointMode"; "style": "style"; "zIndex": "zIndex"; }, { "featureSelected": "featureSelected"; }, never, never>;
 }

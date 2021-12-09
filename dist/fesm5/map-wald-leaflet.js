@@ -30,7 +30,7 @@ function getCjsExportFromNamespace (n) {
 var leaflet_service = createCommonjsModule(function (module, exports) {
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.LeafletService = void 0;
+exports.ensurePane = exports.LeafletService = void 0;
 
 
 var i0 = core;
@@ -68,11 +68,19 @@ function addControlPlaceholders(map) {
     createCorner('top', 'center');
     createCorner('bottom', 'center');
 }
+function ensurePane(map, pane, zIndex) {
+    if (!map.getPane(pane)) {
+        map.createPane(pane);
+        map.getPane(pane).style.zIndex = 405 + zIndex;
+    }
+}
+exports.ensurePane = ensurePane;
 
 });
 
 var leaflet_service$1 = unwrapExports(leaflet_service);
-var leaflet_service_1 = leaflet_service.LeafletService;
+var leaflet_service_1 = leaflet_service.ensurePane;
+var leaflet_service_2 = leaflet_service.LeafletService;
 
 var leafletMap_component = createCommonjsModule(function (module, exports) {
 "use strict";
@@ -414,6 +422,7 @@ var GeojsonLayerComponent = /** @class */ (function () {
         this.style = {};
         // @Input() idColumn = 'id';
         this.featureSelected = new core.EventEmitter();
+        this.zIndex = 100;
         this.destroyed = false;
     }
     GeojsonLayerComponent.prototype.ngOnInit = function () {
@@ -488,6 +497,9 @@ var GeojsonLayerComponent = /** @class */ (function () {
                     return leaflet.circleMarker(latlng, { radius: radius });
                 };
             }
+            var pane = "vector-pane-" + _this.zIndex;
+            leaflet_service.ensurePane(m, pane, _this.zIndex);
+            options.pane = pane;
             _this.vectorLayer = leaflet.geoJSON(_this.features, options);
             _this.vectorLayer.on('click', function (event) {
                 if (_this.selectedFeature) {
@@ -504,7 +516,7 @@ var GeojsonLayerComponent = /** @class */ (function () {
         });
     };
     GeojsonLayerComponent.ɵfac = function GeojsonLayerComponent_Factory(t) { return new (t || GeojsonLayerComponent)(i0.ɵɵdirectiveInject(i1.HttpClient), i0.ɵɵdirectiveInject(i2.LeafletService)); };
-    GeojsonLayerComponent.ɵcmp = i0.ɵɵdefineComponent({ type: GeojsonLayerComponent, selectors: [["geojson-layer"]], inputs: { url: "url", features: "features", sublayers: "sublayers", pointMode: "pointMode", style: "style" }, outputs: { featureSelected: "featureSelected" }, features: [i0.ɵɵNgOnChangesFeature], decls: 0, vars: 0, template: function GeojsonLayerComponent_Template(rf, ctx) { }, styles: [""] });
+    GeojsonLayerComponent.ɵcmp = i0.ɵɵdefineComponent({ type: GeojsonLayerComponent, selectors: [["geojson-layer"]], inputs: { url: "url", features: "features", sublayers: "sublayers", pointMode: "pointMode", style: "style", zIndex: "zIndex" }, outputs: { featureSelected: "featureSelected" }, features: [i0.ɵɵNgOnChangesFeature], decls: 0, vars: 0, template: function GeojsonLayerComponent_Template(rf, ctx) { }, styles: [""] });
     return GeojsonLayerComponent;
 }());
 exports.GeojsonLayerComponent = GeojsonLayerComponent;
@@ -527,6 +539,8 @@ exports.GeojsonLayerComponent = GeojsonLayerComponent;
             type: core.Input
         }], featureSelected: [{
             type: core.Output
+        }], zIndex: [{
+            type: core.Input
         }] }); })();
 
 });
@@ -1048,6 +1062,7 @@ var VectorTileLayerComponent = /** @class */ (function () {
         this.maxZoom = 30;
         this.minNativeZoom = 11;
         this.maxNativeZoom = 13;
+        this.zIndex = 100;
         this.destroyed = false;
     }
     VectorTileLayerComponent.prototype.ngOnInit = function () {
@@ -1076,7 +1091,10 @@ var VectorTileLayerComponent = /** @class */ (function () {
             if (_this.destroyed) {
                 return;
             }
+            var pane = "vector-pane-" + _this.zIndex;
+            leaflet_service.ensurePane(m, pane, _this.zIndex);
             _this.vectorLayer = L.vectorGrid.protobuf(_this.url, {
+                pane: pane,
                 minZoom: _this.minZoom,
                 maxZoom: _this.maxZoom,
                 minNativeZoom: _this.minNativeZoom,
@@ -1128,7 +1146,7 @@ var VectorTileLayerComponent = /** @class */ (function () {
         };
     };
     VectorTileLayerComponent.ɵfac = function VectorTileLayerComponent_Factory(t) { return new (t || VectorTileLayerComponent)(i0.ɵɵdirectiveInject(i1.LeafletService)); };
-    VectorTileLayerComponent.ɵcmp = i0.ɵɵdefineComponent({ type: VectorTileLayerComponent, selectors: [["vector-tile-layer"]], inputs: { url: "url", styles: "styles", sublayers: "sublayers", minZoom: "minZoom", maxZoom: "maxZoom", minNativeZoom: "minNativeZoom", maxNativeZoom: "maxNativeZoom" }, outputs: { featureSelected: "featureSelected" }, features: [i0.ɵɵNgOnChangesFeature], decls: 0, vars: 0, template: function VectorTileLayerComponent_Template(rf, ctx) { }, encapsulation: 2 });
+    VectorTileLayerComponent.ɵcmp = i0.ɵɵdefineComponent({ type: VectorTileLayerComponent, selectors: [["vector-tile-layer"]], inputs: { url: "url", styles: "styles", sublayers: "sublayers", minZoom: "minZoom", maxZoom: "maxZoom", minNativeZoom: "minNativeZoom", maxNativeZoom: "maxNativeZoom", zIndex: "zIndex" }, outputs: { featureSelected: "featureSelected" }, features: [i0.ɵɵNgOnChangesFeature], decls: 0, vars: 0, template: function VectorTileLayerComponent_Template(rf, ctx) { }, encapsulation: 2 });
     return VectorTileLayerComponent;
 }());
 exports.VectorTileLayerComponent = VectorTileLayerComponent;
@@ -1155,6 +1173,8 @@ exports.VectorTileLayerComponent = VectorTileLayerComponent;
             type: core.Input
         }], maxNativeZoom: [{
             type: core.Input
+        }], zIndex: [{
+            type: core.Input
         }] }); })();
 
 });
@@ -1179,6 +1199,7 @@ var WmsLayerComponent = /** @class */ (function () {
     function WmsLayerComponent(map) {
         this.map = map;
         this.params = {};
+        this.zIndex = 10;
     }
     WmsLayerComponent.prototype.ngOnInit = function () {
     };
@@ -1193,13 +1214,16 @@ var WmsLayerComponent = /** @class */ (function () {
                 return;
             }
             var params = Object.assign({}, DEFAULT_WMS_PARAMS, _this.params);
+            var pane = "wms-pane-" + _this.zIndex;
+            leaflet_service.ensurePane(m, pane, _this.zIndex);
+            params.pane = pane;
             _this.layer = leaflet.tileLayer.wms(_this.url, params);
             // this.layer.options.noWrap = true;
             _this.layer.addTo(m);
         });
     };
     WmsLayerComponent.ɵfac = function WmsLayerComponent_Factory(t) { return new (t || WmsLayerComponent)(i0.ɵɵdirectiveInject(i1.LeafletService)); };
-    WmsLayerComponent.ɵcmp = i0.ɵɵdefineComponent({ type: WmsLayerComponent, selectors: [["wms-layer"]], inputs: { url: "url", params: "params" }, features: [i0.ɵɵNgOnChangesFeature], decls: 0, vars: 0, template: function WmsLayerComponent_Template(rf, ctx) { }, encapsulation: 2 });
+    WmsLayerComponent.ɵcmp = i0.ɵɵdefineComponent({ type: WmsLayerComponent, selectors: [["wms-layer"]], inputs: { url: "url", params: "params", zIndex: "zIndex" }, features: [i0.ɵɵNgOnChangesFeature], decls: 0, vars: 0, template: function WmsLayerComponent_Template(rf, ctx) { }, encapsulation: 2 });
     return WmsLayerComponent;
 }());
 exports.WmsLayerComponent = WmsLayerComponent;
@@ -1213,6 +1237,8 @@ exports.WmsLayerComponent = WmsLayerComponent;
     }], function () { return [{ type: i1.LeafletService }]; }, { url: [{
             type: core.Input
         }], params: [{
+            type: core.Input
+        }], zIndex: [{
             type: core.Input
         }] }); })();
 

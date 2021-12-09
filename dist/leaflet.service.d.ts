@@ -10,3 +10,4 @@ export declare class LeafletService {
     static ɵfac: i0.ɵɵFactoryDef<LeafletService, never>;
     static ɵprov: i0.ɵɵInjectableDef<LeafletService>;
 }
+export declare function ensurePane(map: any, pane: string, zIndex: number): void;
