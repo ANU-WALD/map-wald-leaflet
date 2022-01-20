@@ -1,4 +1,4 @@
-import { Component, OnInit, OnChanges, SimpleChanges, ElementRef, Input } from '@angular/core';
+import { Component, OnInit, OnChanges, SimpleChanges, ElementRef, Input, Output, EventEmitter } from '@angular/core';
 import * as leaflet from 'leaflet';
 import { LeafletService } from './leaflet.service';
 import { Bounds } from 'map-wald';
@@ -25,6 +25,8 @@ export class LeafletMapComponent implements OnInit, OnChanges {
   @Input() zoomControl = true;
   @Input() minZoom = 5;
   @Input() maxZoom = 32;
+  @Input() pointSelection = false;
+  @Output() pointSelected = new EventEmitter<leaflet.LatLng>();
 
   map: leaflet.Map;
   styles: any = {};
@@ -178,10 +180,11 @@ export class LeafletMapComponent implements OnInit, OnChanges {
 
       // this._helper.register(this.map);
       this.map.on('click',(evt: leaflet.LeafletMouseEvent)=>{
-        if(evt.originalEvent.defaultPrevented){
+        if(!this.pointSelection || evt.originalEvent.defaultPrevented){
           return;
         }
-        // this.pointClick.emit(evt.latlng);
+
+        this.pointSelected.emit(evt.latlng);
       });
       // this.creating=false;
 
