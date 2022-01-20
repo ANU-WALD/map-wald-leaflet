@@ -21,6 +21,7 @@ const DEFAULT_BASE_MAP='https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
 })
 export class LeafletMapComponent implements OnInit, OnChanges {
   @Input() bounds: Bounds;
+  @Input() maxBounds: Bounds;
   @Input() baseMap: BasemapDescriptor;
   @Input() zoomControl = true;
   @Input() minZoom = 5;
@@ -150,6 +151,7 @@ export class LeafletMapComponent implements OnInit, OnChanges {
       this.map = leaflet.map(theHost as HTMLElement,{
         crs,
         zoom: 5,
+        maxBounds: toBounds(this.maxBounds),
         minZoom: this.minZoom,
         maxZoom: this.maxZoom,
         zoomControl: this.zoomControl,
@@ -215,10 +217,7 @@ export class LeafletMapComponent implements OnInit, OnChanges {
       return;
     }
 
-    this.map.fitBounds([
-      [this.bounds.south,this.bounds.west],
-      [this.bounds.north,this.bounds.east]
-    ]);
+    this.map.fitBounds(toBounds(this.bounds));
   }
 
 }
@@ -238,3 +237,14 @@ http://35.244.111.168:8080/wms
 &bbox=-17532819.79994059,-5009377.085697311,-15028131.257091936,-2504688.542848655
 
 */
+
+function toBounds(bounds:Bounds):L.LatLngBoundsLiteral{
+  if(!bounds){
+    return null;
+  }
+
+  return [
+    [bounds.south,bounds.west],
+    [bounds.north,bounds.east]
+  ];
+}
