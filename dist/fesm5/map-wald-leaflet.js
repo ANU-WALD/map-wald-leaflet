@@ -100,6 +100,8 @@ var LeafletMapComponent = /** @class */ (function () {
         this.zoomControl = true;
         this.minZoom = 5;
         this.maxZoom = 32;
+        this.pointSelection = false;
+        this.pointSelected = new core.EventEmitter();
         this.styles = {};
         this.initialised = false;
         console.log('LeafletMapComponent');
@@ -197,6 +199,7 @@ var LeafletMapComponent = /** @class */ (function () {
             _this.map = leaflet.map(theHost, {
                 crs: crs,
                 zoom: 5,
+                maxBounds: toBounds(_this.maxBounds),
                 minZoom: _this.minZoom,
                 maxZoom: _this.maxZoom,
                 zoomControl: _this.zoomControl,
@@ -222,10 +225,10 @@ var LeafletMapComponent = /** @class */ (function () {
             // configureVectorPanes(panes,this.map);
             // this._helper.register(this.map);
             _this.map.on('click', function (evt) {
-                if (evt.originalEvent.defaultPrevented) {
+                if (!_this.pointSelection || evt.originalEvent.defaultPrevented) {
                     return;
                 }
-                // this.pointClick.emit(evt.latlng);
+                _this.pointSelected.emit(evt.latlng);
             });
             // this.creating=false;
             // this.map.on('zoomend',()=>this.coordinatesChanged());
@@ -246,13 +249,10 @@ var LeafletMapComponent = /** @class */ (function () {
         if (!this.map || !this.bounds) {
             return;
         }
-        this.map.fitBounds([
-            [this.bounds.south, this.bounds.west],
-            [this.bounds.north, this.bounds.east]
-        ]);
+        this.map.fitBounds(toBounds(this.bounds));
     };
     LeafletMapComponent.ɵfac = function LeafletMapComponent_Factory(t) { return new (t || LeafletMapComponent)(i0.ɵɵdirectiveInject(i0.ElementRef), i0.ɵɵdirectiveInject(i1.LeafletService)); };
-    LeafletMapComponent.ɵcmp = i0.ɵɵdefineComponent({ type: LeafletMapComponent, selectors: [["leaflet-map"]], inputs: { bounds: "bounds", baseMap: "baseMap", zoomControl: "zoomControl", minZoom: "minZoom", maxZoom: "maxZoom" }, features: [i0.ɵɵNgOnChangesFeature], ngContentSelectors: _c0, decls: 2, vars: 2, consts: [[1, "leafletHost"]], template: function LeafletMapComponent_Template(rf, ctx) { if (rf & 1) {
+    LeafletMapComponent.ɵcmp = i0.ɵɵdefineComponent({ type: LeafletMapComponent, selectors: [["leaflet-map"]], inputs: { bounds: "bounds", maxBounds: "maxBounds", baseMap: "baseMap", zoomControl: "zoomControl", minZoom: "minZoom", maxZoom: "maxZoom", pointSelection: "pointSelection" }, outputs: { pointSelected: "pointSelected" }, features: [i0.ɵɵNgOnChangesFeature], ngContentSelectors: _c0, decls: 2, vars: 2, consts: [[1, "leafletHost"]], template: function LeafletMapComponent_Template(rf, ctx) { if (rf & 1) {
             i0.ɵɵprojectionDef();
             i0.ɵɵelementStart(0, "div", 0);
             i0.ɵɵprojection(1);
@@ -273,6 +273,8 @@ exports.LeafletMapComponent = LeafletMapComponent;
             }]
     }], function () { return [{ type: i0.ElementRef }, { type: i1.LeafletService }]; }, { bounds: [{
             type: core.Input
+        }], maxBounds: [{
+            type: core.Input
         }], baseMap: [{
             type: core.Input
         }], zoomControl: [{
@@ -281,7 +283,36 @@ exports.LeafletMapComponent = LeafletMapComponent;
             type: core.Input
         }], maxZoom: [{
             type: core.Input
+        }], pointSelection: [{
+            type: core.Input
+        }], pointSelected: [{
+            type: core.Output
         }] }); })();
+/*
+http://35.244.111.168:8080/wms
+?service=WMS
+&request=GetMap
+&layers=wcf
+&styles=
+&format=image%2Fpng
+&transparent=true
+&version=1.1.1
+&time=2019-01-01T00%3A00%3A00.000Z
+&width=256
+&height=256
+&srs=EPSG%3A3857
+&bbox=-17532819.79994059,-5009377.085697311,-15028131.257091936,-2504688.542848655
+
+*/
+function toBounds(bounds) {
+    if (!bounds) {
+        return null;
+    }
+    return [
+        [bounds.south, bounds.west],
+        [bounds.north, bounds.east]
+    ];
+}
 
 });
 
@@ -302,6 +333,7 @@ var DrawComponent = /** @class */ (function () {
     function DrawComponent(map) {
         var _this = this;
         this.map = map;
+        // @Input() zIndex = 2000;
         this.featureClosed = new core.EventEmitter();
         this.keyHandler = function (event) {
             var key = event.originalEvent.key;
@@ -365,7 +397,10 @@ var DrawComponent = /** @class */ (function () {
         m.on('keyup', this.keyHandler);
     };
     DrawComponent.prototype.initiateDrawing = function (m) {
+        // const pane = `drawn-polygon-${this.zIndex}`;
+        // ensurePane(m,pane,this.zIndex);
         leaflet.Draw.Polygon.prototype._onTouch = leaflet.Util.falseFn;
+        // const options = {zIndexOffset:this.zIndex,repeatMode: false};
         this.polygon = new leaflet.Draw.Polygon(m, { repeatMode: false });
         this.polygon.addHooks();
     };
