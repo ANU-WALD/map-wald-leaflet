@@ -92,11 +92,13 @@ export class VectorTileLayerComponent implements OnInit, OnChanges, OnDestroy {
     const points = (parts as any[]).map((part:any[])=>{
       return part.map(pt=>([pt.x,pt.y] as number[]));
     });
-    const minx = Math.min(...points[0].map(pt=>pt[0]));
-    const maxx = Math.max(...points[0].map(pt=>pt[0]));
+    const originalXs = ([] as number[]).concat(...points.map(part=>part.map(pt=>pt[0])));
+    const minx = Math.min(...originalXs);//points[0].map(pt=>pt[0]));
+    const maxx = Math.max(...originalXs);//points[0].map(pt=>pt[0]));
 
-    const miny = Math.min(...points[0].map(pt=>pt[1]));
-    const maxy = Math.max(...points[0].map(pt=>pt[1]));
+    const originalYs = ([] as number[]).concat(...points.map(part=>part.map(pt=>pt[1])));
+    const miny = Math.min(...originalYs);//points[0].map(pt=>pt[1]));
+    const maxy = Math.max(...originalYs);//points[0].map(pt=>pt[1]));
 
     function converter(from:number[],to:number[]): ((c:number)=>number) {
       const fromDelta = from[1]-from[0];
