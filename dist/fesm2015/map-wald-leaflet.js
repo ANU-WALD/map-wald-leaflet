@@ -334,7 +334,6 @@ const i1 = leaflet_service;
 class DrawComponent {
     constructor(map) {
         this.map = map;
-        // @Input() zIndex = 2000;
         this.featureClosed = new core.EventEmitter();
         this.keyHandler = (event) => {
             const key = event.originalEvent.key;
@@ -395,10 +394,7 @@ class DrawComponent {
         m.on('keyup', this.keyHandler);
     }
     initiateDrawing(m) {
-        // const pane = `drawn-polygon-${this.zIndex}`;
-        // ensurePane(m,pane,this.zIndex);
         leaflet.Draw.Polygon.prototype._onTouch = leaflet.Util.falseFn;
-        // const options = {zIndexOffset:this.zIndex,repeatMode: false};
         this.polygon = new leaflet.Draw.Polygon(m, { repeatMode: false });
         this.polygon.addHooks();
     }
@@ -1197,17 +1193,19 @@ class VectorTileLayerComponent {
                 vectorTileLayerStyles: this.styles,
                 getFeatureId: (f) => this.getFeatureId(f)
             });
-            this.vectorLayer.on('click', (event) => {
-                if (this.selectedFeature) {
-                    this.vectorLayer.resetFeatureStyle(this.selectedFeature);
-                }
-                this.selectedFeature = this.getFeatureId(event.layer);
-                this.vectorLayer.setFeatureStyle(this.selectedFeature, {
-                    weight: 5
+            if (this.featureSelected.observers.length) {
+                this.vectorLayer.on('click', (event) => {
+                    if (this.selectedFeature) {
+                        this.vectorLayer.resetFeatureStyle(this.selectedFeature);
+                    }
+                    this.selectedFeature = this.getFeatureId(event.layer);
+                    this.vectorLayer.setFeatureStyle(this.selectedFeature, {
+                        weight: 5
+                    });
+                    const geoJSON = this.vectorGridFeatureToGeoJSON(event.layer);
+                    this.featureSelected.emit(geoJSON);
                 });
-                const geoJSON = this.vectorGridFeatureToGeoJSON(event.layer);
-                this.featureSelected.emit(geoJSON);
-            });
+            }
             this.vectorLayer.addTo(m);
         });
     }
