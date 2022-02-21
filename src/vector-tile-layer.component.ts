@@ -71,18 +71,20 @@ export class VectorTileLayerComponent implements OnInit, OnChanges, OnDestroy {
         getFeatureId: (f:any) => this.getFeatureId(f)
       });
 
-      this.vectorLayer.on('click' as any,(event)=>{
-        if(this.selectedFeature){
-          this.vectorLayer.resetFeatureStyle(this.selectedFeature);
-        }
-        this.selectedFeature = this.getFeatureId(event.layer);
-        this.vectorLayer.setFeatureStyle(this.selectedFeature, {
-          weight:5
-        });
+      if(this.featureSelected.observers.length){
+        this.vectorLayer.on('click' as any,(event)=>{
+          if(this.selectedFeature){
+            this.vectorLayer.resetFeatureStyle(this.selectedFeature);
+          }
+          this.selectedFeature = this.getFeatureId(event.layer);
+          this.vectorLayer.setFeatureStyle(this.selectedFeature, {
+            weight:5
+          });
 
-        const geoJSON = this.vectorGridFeatureToGeoJSON(event.layer);
-        this.featureSelected.emit(geoJSON);
-      });
+          const geoJSON = this.vectorGridFeatureToGeoJSON(event.layer);
+          this.featureSelected.emit(geoJSON);
+        });
+      }
       this.vectorLayer.addTo(m);
     });
   }
